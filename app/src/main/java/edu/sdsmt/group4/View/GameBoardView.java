@@ -11,6 +11,11 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+
+import java.util.Objects;
 import java.util.Random;
 import edu.sdsmt.group4.Model.CaptureObject;
 import edu.sdsmt.group4.Model.CircleCapture;
@@ -353,4 +358,13 @@ public class GameBoardView extends View {
     public String getPlayer1Name() { return board.getPlayer1Name(); }
 
     public String getPlayer2Name() { return board.getPlayer2Name(); }
+
+    public void loadJSON(DataSnapshot snapshot) {
+        DataSnapshot gameData = snapshot.child("game");
+        DataSnapshot player1 = snapshot.child("player1");
+        DataSnapshot player2 = snapshot.child("player2");
+
+        Log.d("Cloud Load", String.valueOf(gameData) + String.valueOf(player1) +
+                String.valueOf(player2));
+    }
 }

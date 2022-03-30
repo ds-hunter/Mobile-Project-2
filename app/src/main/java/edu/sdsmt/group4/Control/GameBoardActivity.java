@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import edu.sdsmt.group4.Model.Cloud;
 import edu.sdsmt.group4.R;
 import edu.sdsmt.group4.View.GameBoardView;
 
@@ -36,6 +38,7 @@ public class GameBoardActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle bundle) {
         super.onRestoreInstanceState(bundle);
+        Log.d("GameBoard: ", " LOADED INSTANCE STATE ");
         view.loadInstanceState(bundle);
         updateGUI();
     }

@@ -1,7 +1,7 @@
 package edu.sdsmt.group4.Model;
 
 public class Player {
-    private final String name;
+    private String name;
     private final int id;
     private int score = 0;
 
@@ -12,6 +12,10 @@ public class Player {
 
     public String getName() {
         return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getId() {

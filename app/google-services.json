@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "383738821136",
+    "firebase_url": "https://mobile-project-2---group-1-default-rtdb.firebaseio.com",
+    "project_id": "mobile-project-2---group-1",
+    "storage_bucket": "mobile-project-2---group-1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:383738821136:android:1964124715538489e66895",
+        "android_client_info": {
+          "package_name": "edu.sdsmt.group4"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "383738821136-um1u5j6r8er2e2tbohj3vpukot36vmtg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBs_44PWFpSVQjsqqTi6qJnFa1rWJtAuzI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "383738821136-um1u5j6r8er2e2tbohj3vpukot36vmtg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
