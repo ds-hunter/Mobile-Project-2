@@ -19,24 +19,35 @@
         app:layout_constraintVertical_bias="0.25" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/nameInput1"
+        android:id="@+id/emailInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/NameInput1Hint"
+        android:hint="@string/emailInputHint"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/WelcomeTextView"
         app:layout_constraintVertical_bias="0.25" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/nameInput2"
+        android:id="@+id/passwordInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/NameInput2Hint"
-        app:layout_constraintEnd_toEndOf="@+id/nameInput1"
-        app:layout_constraintStart_toStartOf="@+id/nameInput1"
-        app:layout_constraintTop_toBottomOf="@+id/nameInput1" />
+        android:hint="@string/passwordInputHint"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="@+id/emailInput"
+        app:layout_constraintStart_toStartOf="@+id/emailInput"
+        app:layout_constraintTop_toBottomOf="@+id/emailInput" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/passwordInput2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/screenNameInputHint"
+        app:layout_constraintEnd_toEndOf="@+id/emailInput"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/emailInput"
+        app:layout_constraintTop_toBottomOf="@+id/roundsInput" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/roundsInput"
@@ -44,9 +55,9 @@
         android:layout_height="wrap_content"
         android:hint="@string/RoundsInputHint"
         android:inputType="number"
-        app:layout_constraintEnd_toEndOf="@+id/nameInput2"
-        app:layout_constraintStart_toStartOf="@+id/nameInput2"
-        app:layout_constraintTop_toBottomOf="@+id/nameInput2" />
+        app:layout_constraintEnd_toEndOf="@+id/passwordInput"
+        app:layout_constraintStart_toStartOf="@+id/passwordInput"
+        app:layout_constraintTop_toBottomOf="@+id/passwordInput" />
 
     <Button
         android:id="@+id/startGameButton"
@@ -56,7 +67,7 @@
         android:text="@string/StartButtonText"
         app:layout_constraintEnd_toEndOf="@+id/howToPlayButton"
         app:layout_constraintStart_toStartOf="@+id/howToPlayButton"
-        app:layout_constraintTop_toBottomOf="@+id/roundsInput" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordInput2" />
 
     <Button
         android:id="@+id/howToPlayButton"
@@ -81,6 +92,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.80" />
+
+    <Switch
+        android:id="@+id/passwordSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onPasswordSwitch"
+        app:layout_constraintBottom_toBottomOf="@+id/passwordInput"
+        app:layout_constraintStart_toEndOf="@+id/passwordInput"
+        app:layout_constraintTop_toBottomOf="@+id/emailInput" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

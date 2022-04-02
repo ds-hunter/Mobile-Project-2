@@ -50,38 +50,55 @@ package edu.sdsmt.group4.Control;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Switch;
 import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import edu.sdsmt.group4.Model.GameBoard;
 import edu.sdsmt.group4.R;
 
 public class WelcomeActivity extends AppCompatActivity {
+    int TYPE_TEXT_VARIATION_VISIBLE_PASSWORD = 145;
+    int TYPE_TEXT_VARIATION_PASSWORD = 129;
     public final static String PLAYER1NAME_MESSAGE = "edu.sdsmt.group4.PLAYER1NAME_MESSAGE";
     public final static String PLAYER2NAME_MESSAGE  = "edu.sdsmt.group4.PLAYER2NAME_MESSAGE";
     public final static String ROUNDS_MESSAGE  = "edu.sdsmt.group4.ROUNDS_MESSAGE";
-    TextView player1;
-    TextView player2;
+    TextView email;
+    TextView password;
     TextView rounds;
+    TextView passwordBox;
+    Switch passwordSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        player1 = findViewById(R.id.nameInput1);
-        player2 = findViewById(R.id.nameInput2);
+        email = findViewById(R.id.emailInput);
+        password = findViewById(R.id.passwordInput);
         rounds = findViewById(R.id.roundsInput);
+        passwordBox = findViewById(R.id.passwordInput);
+        passwordSwitch = findViewById(R.id.passwordSwitch);
     }
 
     public void onStart(View view) {
+        WaitingDlg dlg = new WaitingDlg();
+        dlg.show(getSupportFragmentManager(), "Loading");
+        /*
         Intent intent = new Intent(this, GameBoardActivity.class);
-        intent.putExtra(PLAYER1NAME_MESSAGE, player1.getText().toString());
-        intent.putExtra(PLAYER2NAME_MESSAGE, player2.getText().toString());
+
+        // This is old stuff but we will leave it for now
+        intent.putExtra(PLAYER1NAME_MESSAGE, "TODO");
+        intent.putExtra(PLAYER2NAME_MESSAGE, "TODO");
         intent.putExtra(ROUNDS_MESSAGE, rounds.getText().toString());
+
+        // We will still need to switch activities, but instead of putExtra we will
+        // be pushing to the cloud.
         startActivity(intent);
-        player1.setText("");
-        player2.setText("");
-        rounds.setText("");
+        email.setText("");
+        password.setText("");
+        rounds.setText("");*/
     }
 
     public void onHowToPlay(View view) {
@@ -90,5 +107,10 @@ public class WelcomeActivity extends AppCompatActivity {
         builder.setMessage(R.string.HowToPlayMessage);
         builder.setPositiveButton(android.R.string.ok, null);
         builder.show();
+    }
+
+    public void onPasswordSwitch(View view) {
+        int type = passwordSwitch.isChecked() ? 145 : 129;
+        passwordBox.setInputType(type);
     }
 }
