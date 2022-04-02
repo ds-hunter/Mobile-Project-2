@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/new_password"
-        android:inputType="textPassword"
+        android:inputType="textVisiblePassword"
         android:minHeight="48dp"
         android:textColorHint="#757575"
         app:layout_constraintBottom_toTopOf="@+id/createButton"
