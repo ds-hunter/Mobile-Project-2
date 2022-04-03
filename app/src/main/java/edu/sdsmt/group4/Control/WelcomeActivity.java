@@ -82,8 +82,6 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     public void onStart(View view) {
-        //WaitingDlg dlg = new WaitingDlg();
-        //dlg.show(getSupportFragmentManager(), "Loading");
         /*
         Intent intent = new Intent(this, GameBoardActivity.class);
 
@@ -106,9 +104,11 @@ public class WelcomeActivity extends AppCompatActivity {
 
         if(!monitor.signIn()){
             //TODO: create an error message explaining why sign-in failed
+        }else {
+            monitor.startAuthListening();
+            WaitingDlg dlg = new WaitingDlg();
+            dlg.show(getSupportFragmentManager(), "Loading");
         }
-
-        monitor.startAuthListening();
     }
 
     public void onAccountClick(View view){

@@ -43,6 +43,8 @@ public class NewUserActivity extends AppCompatActivity {
 
         if(!monitor.createUser()){
             //TODO: Create error message if creation fails
+        }else{
+            finish();
         }
     }
 }
