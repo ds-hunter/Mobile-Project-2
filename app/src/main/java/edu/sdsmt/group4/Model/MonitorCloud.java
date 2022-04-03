@@ -30,23 +30,18 @@ public class MonitorCloud {
     public boolean isAuthenticated(){
         return authenticated;
     }
-    /**
-     *  private to defeat instantiation.
-     */
-    private MonitorCloud() {
 
+    public MonitorCloud() {
     }
 
-    public void login(String user, String email, String passwd, String player){
+    public void setUserDetails(String user, String email, String passwd, String player){
         USER = user;
         EMAIL = email;
         PASSWORD = passwd;
         TAG = player;
-        createUser();
-        startAuthListening();
     }
 
-    private void createUser() {
+    public boolean createUser() {
         Task<AuthResult> result = userAuth.createUserWithEmailAndPassword(EMAIL, PASSWORD);
         result.addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -56,7 +51,7 @@ public class MonitorCloud {
                     firebaseUser = userAuth.getCurrentUser();
                     HashMap<String, Object> result = new HashMap<>();
                     result.put("/screenName/"+USER, true);
-                    result.put("/"+firebaseUser.getUid()+"/name", USER);
+                    result.put("/"+firebaseUser.getUid()+"/screenName", USER);
                     result.put("/"+firebaseUser.getUid()+"/password", PASSWORD);
                     result.put("/"+firebaseUser.getUid()+"/email", EMAIL);
                     userRef.updateChildren(result);
@@ -70,10 +65,11 @@ public class MonitorCloud {
                 }
             }
         });
+        return authenticated;
     }
 
 
-    private void signIn() {
+    public boolean signIn() {
         Task<AuthResult> result = userAuth.signInWithEmailAndPassword(EMAIL, PASSWORD);
         result.addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 
@@ -89,9 +85,10 @@ public class MonitorCloud {
                 }
             }
         });
+        return authenticated;
     }
 
-    private void startAuthListening() {
+    public void startAuthListening() {
         userAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {

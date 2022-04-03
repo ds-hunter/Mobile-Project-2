@@ -47,19 +47,16 @@ package edu.sdsmt.group4.Control;
  * Please list any additional rules that may be needed to properly grade your project:
  */
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
-
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import edu.sdsmt.group4.Model.GameBoard;
+import edu.sdsmt.group4.Model.MonitorCloud;
 import edu.sdsmt.group4.R;
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -68,45 +65,25 @@ public class WelcomeActivity extends AppCompatActivity {
     public final static String PLAYER1NAME_MESSAGE = "edu.sdsmt.group4.PLAYER1NAME_MESSAGE";
     public final static String PLAYER2NAME_MESSAGE  = "edu.sdsmt.group4.PLAYER2NAME_MESSAGE";
     public final static String ROUNDS_MESSAGE  = "edu.sdsmt.group4.ROUNDS_MESSAGE";
-    TextView userName;
-    TextView password;
+    TextView user;
     TextView rounds;
     TextView passwordBox;
-
-    private ActivityResultLauncher<Intent> activityLauncher;
+    private MonitorCloud monitor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        userName = findViewById(R.id.userNameInput);
-        password = findViewById(R.id.passwordInput);
+        user = findViewById(R.id.userNameInput);
         rounds = findViewById(R.id.roundsInput);
-        //any target
-        ActivityResultContracts.StartActivityForResult contract =
-                new ActivityResultContracts.StartActivityForResult();
-        activityLauncher =
-                registerForActivityResult(contract, (result)->
-                { int resultCode = result.getResultCode();
-                    if (resultCode == Activity.RESULT_OK) {
-                        Intent data = result.getData();
-                        //get userName from the activity
-                    }});
-
-
-
-    }
-
-    public void onAccountClick(View v)
-    {
-        Intent switchActivityIntent = new Intent(this, NewUserActivity.class);
-        activityLauncher.launch(switchActivityIntent);
+        passwordBox = findViewById(R.id.passwordInput);
+        monitor = new MonitorCloud();
     }
 
     public void onStart(View view) {
-        WaitingDlg dlg = new WaitingDlg();
-        dlg.show(getSupportFragmentManager(), "Loading");
+        //WaitingDlg dlg = new WaitingDlg();
+        //dlg.show(getSupportFragmentManager(), "Loading");
         /*
         Intent intent = new Intent(this, GameBoardActivity.class);
 
@@ -121,6 +98,22 @@ public class WelcomeActivity extends AppCompatActivity {
         email.setText("");
         password.setText("");
         rounds.setText("");*/
+
+        monitor.setUserDetails(" ",
+                user.getText().toString(),
+                passwordBox.getText().toString(),
+                " ");
+
+        if(!monitor.signIn()){
+            //TODO: create an error message explaining why sign-in failed
+        }
+
+        monitor.startAuthListening();
+    }
+
+    public void onAccountClick(View view){
+        Intent intent = new Intent(this, NewUserActivity.class);
+        startActivity(intent);
     }
 
     public void onHowToPlay(View view) {
@@ -129,10 +122,5 @@ public class WelcomeActivity extends AppCompatActivity {
         builder.setMessage(R.string.HowToPlayMessage);
         builder.setPositiveButton(android.R.string.ok, null);
         builder.show();
-    }
-
-    public void onPasswordSwitch(View view) {
-       // int type = passwordSwitch.isChecked() ? 145 : 129;
-       // passwordBox.setInputType(type);
     }
 }

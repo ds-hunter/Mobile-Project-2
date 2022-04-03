@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import edu.sdsmt.group4.Model.MonitorCloud;
 import edu.sdsmt.group4.R;
 
 public class NewUserActivity extends AppCompatActivity {
@@ -16,6 +18,8 @@ public class NewUserActivity extends AppCompatActivity {
     private TextView newPassword;
     private TextView confirmPassword;
     private Button create;
+    private MonitorCloud monitor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,9 +31,18 @@ public class NewUserActivity extends AppCompatActivity {
         confirmPassword = findViewById(R.id.confirmPassword);
         create = findViewById(R.id.createButton);
 
+        monitor = new MonitorCloud();
 
+    }
 
+    public void onCreate(View view) {
+        monitor.setUserDetails(userName.getText().toString(),
+                email.getText().toString(),
+                confirmPassword.getText().toString(),
+                "p");
 
-
+        if(!monitor.createUser()){
+            //TODO: Create error message if creation fails
+        }
     }
 }
