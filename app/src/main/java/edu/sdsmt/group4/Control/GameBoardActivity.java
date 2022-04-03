@@ -192,8 +192,8 @@ public class GameBoardActivity extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.exit_game:
+        if (item.getItemId() == R.id.exit_game) {
+
                endGame();
 
         }

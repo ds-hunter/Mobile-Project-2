@@ -104,7 +104,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         monitor.signIn();
         monitor.startAuthListening();
-        startActivity(intent);
+       // startActivity(intent);
     }
 
     public void logIn(){
