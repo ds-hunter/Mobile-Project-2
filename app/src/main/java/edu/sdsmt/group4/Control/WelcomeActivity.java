@@ -48,10 +48,15 @@ package edu.sdsmt.group4.Control;
  */
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -65,9 +70,11 @@ public class WelcomeActivity extends AppCompatActivity {
     public final static String PLAYER1NAME_MESSAGE = "edu.sdsmt.group4.PLAYER1NAME_MESSAGE";
     public final static String PLAYER2NAME_MESSAGE  = "edu.sdsmt.group4.PLAYER2NAME_MESSAGE";
     public final static String ROUNDS_MESSAGE  = "edu.sdsmt.group4.ROUNDS_MESSAGE";
-    TextView user;
-    TextView rounds;
-    TextView passwordBox;
+    private SharedPreferences preferences;
+    EditText user;
+    EditText rounds;
+    EditText passwordBox;
+    CheckBox rememberBox;
     private MonitorCloud monitor;
 
     @Override
@@ -79,6 +86,16 @@ public class WelcomeActivity extends AppCompatActivity {
         rounds = findViewById(R.id.roundsInput);
         passwordBox = findViewById(R.id.passwordInput);
         monitor = new MonitorCloud(this, null);
+        rememberBox = findViewById(R.id.rememberBox);
+        preferences = this.getSharedPreferences("login", 0);
+        String userName=preferences.getString("userName", "");
+        String pass=preferences.getString("password", "");
+
+        if(userName != "" && pass != "")
+        {
+            user.setText(userName);
+            passwordBox.setText(pass);
+        }
     }
 
     public void onStart(View view) {
@@ -97,6 +114,16 @@ public class WelcomeActivity extends AppCompatActivity {
         password.setText("");
         rounds.setText("");*/
 
+        if(rememberBox.isChecked())
+        {
+            SharedPreferences.Editor editor =preferences.edit();
+            String username=user.getText().toString().trim();
+            String password=passwordBox.getText().toString().trim();
+            editor.putString("userName",username);
+            editor.putString("password",password);
+            editor.commit();
+            Toast.makeText(getApplicationContext(),"Save successfully",Toast.LENGTH_SHORT).show();
+        }
         monitor.setUserDetails(" ",
                 user.getText().toString(),
                 passwordBox.getText().toString(),

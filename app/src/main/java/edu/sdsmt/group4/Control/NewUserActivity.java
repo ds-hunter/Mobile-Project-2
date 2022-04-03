@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import edu.sdsmt.group4.Model.MonitorCloud;
 import edu.sdsmt.group4.R;
@@ -44,13 +46,26 @@ public class NewUserActivity extends AppCompatActivity {
     }
 
     public void onCreateClick(View view) {
-        monitor.setUserDetails(userName.getText().toString(),
-                email.getText().toString(),
-                confirmPassword.getText().toString(),
-                "p");
+        if(userName.getText().equals("") || email.getText().equals(""))
+        {
+            Toast.makeText(getApplicationContext(),"Invalid user name or email",Toast.LENGTH_SHORT).show();
+        }
+        else if(newPassword.getText().toString().trim().equals(confirmPassword.getText().toString().trim()))
+        {
+            Log.d("pass", newPassword.getText().toString().trim());
+            Log.d("pass", confirmPassword.getText().toString().trim());
+            Toast.makeText(getApplicationContext(),"passwords don't match",Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            monitor.setUserDetails(userName.getText().toString(),
+                    email.getText().toString(),
+                    confirmPassword.getText().toString(),
+                    "p");
+            monitor.createUser();
+            monitor.startAuthListening();
+            finish();
+        }
 
-        monitor.createUser();
-        monitor.startAuthListening();
-        finish();
     }
 }

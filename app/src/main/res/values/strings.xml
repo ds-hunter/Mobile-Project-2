@@ -70,6 +70,7 @@ CAPTURE OPTIONS\n\n
     <string name="login">login</string>
     <string name="create_account">Create Account</string>
     <string name="exit_game">End Game</string>
+    <string name="remember">Remember</string>
 
 </resources>
 
