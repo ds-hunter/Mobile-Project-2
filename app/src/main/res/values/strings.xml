@@ -69,6 +69,7 @@ CAPTURE OPTIONS\n\n
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="login">login</string>
     <string name="create_account">Create Account</string>
+    <string name="exit_game">End Game</string>
 
 </resources>
 

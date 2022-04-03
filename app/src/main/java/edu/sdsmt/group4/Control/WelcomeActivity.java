@@ -82,18 +82,18 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     public void onStart(View view) {
-        /*
+
         Intent intent = new Intent(this, GameBoardActivity.class);
 
-        // This is old stuff but we will leave it for now
+         //This is old stuff but we will leave it for now
         intent.putExtra(PLAYER1NAME_MESSAGE, "TODO");
         intent.putExtra(PLAYER2NAME_MESSAGE, "TODO");
         intent.putExtra(ROUNDS_MESSAGE, rounds.getText().toString());
 
         // We will still need to switch activities, but instead of putExtra we will
         // be pushing to the cloud.
-        startActivity(intent);
-        email.setText("");
+       // startActivity(intent);
+       /* email.setText("");
         password.setText("");
         rounds.setText("");*/
 
@@ -104,6 +104,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         monitor.signIn();
         monitor.startAuthListening();
+        startActivity(intent);
     }
 
     public void logIn(){

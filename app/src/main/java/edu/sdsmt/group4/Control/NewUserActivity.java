@@ -43,7 +43,7 @@ public class NewUserActivity extends AppCompatActivity {
         }
     }
 
-    public void onCreate(View view) {
+    public void onCreateClick(View view) {
         monitor.setUserDetails(userName.getText().toString(),
                 email.getText().toString(),
                 confirmPassword.getText().toString(),
@@ -51,5 +51,6 @@ public class NewUserActivity extends AppCompatActivity {
 
         monitor.createUser();
         monitor.startAuthListening();
+        finish();
     }
 }

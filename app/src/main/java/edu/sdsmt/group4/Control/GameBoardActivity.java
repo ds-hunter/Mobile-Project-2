@@ -11,6 +11,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -101,29 +104,32 @@ public class GameBoardActivity extends AppCompatActivity {
 
     private void isEndGame() {
         if(view.isEndGame()) {
-            String winner = "WINNER\n";
-            int player1Score = Integer.parseInt(view.getPlayer1Score());
-            int player2Score = Integer.parseInt(view.getPlayer2Score());
-
-            Intent intent = new Intent(this, EndGameActivity.class);
-
-            intent.putExtra(EndGameActivity.PLAYER1_MESSAGE, view.getPlayer1Name()
-                    + "'s Score\n" + view.getPlayer1Score());
-            intent.putExtra(EndGameActivity.PLAYER2_MESSAGE, view.getPlayer2Name()
-                    + "'s Score\n" + view.getPlayer2Score());
-
-            //get the winner
-            if (player1Score > player2Score)
-                winner += view.getPlayer1Name();
-            else if (player1Score < player2Score)
-                winner += view.getPlayer2Name();
-            else
-                winner = "TIE!";
-            intent.putExtra(EndGameActivity.WINNER_MESSAGE, winner);
-            startActivity(intent);
-            finish();
+             endGame();
         }
     }
+
+    public void endGame()
+    {            String winner = "WINNER\n";
+        int player1Score = Integer.parseInt(view.getPlayer1Score());
+        int player2Score = Integer.parseInt(view.getPlayer2Score());
+
+        Intent intent = new Intent(this, EndGameActivity.class);
+
+        intent.putExtra(EndGameActivity.PLAYER1_MESSAGE, view.getPlayer1Name()
+                + "'s Score\n" + view.getPlayer1Score());
+        intent.putExtra(EndGameActivity.PLAYER2_MESSAGE, view.getPlayer2Name()
+                + "'s Score\n" + view.getPlayer2Score());
+
+        //get the winner
+        if (player1Score > player2Score)
+            winner += view.getPlayer1Name();
+        else if (player1Score < player2Score)
+            winner += view.getPlayer2Name();
+        else
+            winner = "TIE!";
+        intent.putExtra(EndGameActivity.WINNER_MESSAGE, winner);
+        startActivity(intent);
+        finish();}
 
     @SuppressLint("ClickableViewAccessibility")
     private void updateGUI() {
@@ -169,5 +175,28 @@ public class GameBoardActivity extends AppCompatActivity {
     public void onCaptureOptionsClick(View view) {
         Intent switchActivityIntent = new Intent(this, CaptureSelectionActivity.class);
         captureResultLauncher.launch(switchActivityIntent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.gameboard_menu, menu);
+        return true;
+    }
+
+    /**
+     * Handle options menu selections
+     *
+     * @param item Menu item selected
+     */
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.exit_game:
+               endGame();
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
