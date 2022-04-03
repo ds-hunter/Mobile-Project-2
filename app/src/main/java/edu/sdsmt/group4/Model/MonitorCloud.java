@@ -1,5 +1,7 @@
 package edu.sdsmt.group4.Model;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -14,8 +16,11 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
+import edu.sdsmt.group4.Control.NewUserActivity;
+import edu.sdsmt.group4.Control.WelcomeActivity;
+
 public class MonitorCloud {
-    public final static MonitorCloud INSTANCE = new MonitorCloud();
+    //public final static MonitorCloud INSTANCE = new MonitorCloud();
 
     private String USER;
     private String EMAIL;
@@ -27,11 +32,17 @@ public class MonitorCloud {
     private final DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users");
     private boolean authenticated = false;
 
+    private WelcomeActivity wAct;
+    private NewUserActivity nuAct;
+
     public boolean isAuthenticated(){
+
         return authenticated;
     }
 
-    public MonitorCloud() {
+    public MonitorCloud(WelcomeActivity welcome, NewUserActivity newUser) {
+        wAct = welcome;
+        nuAct = newUser;
     }
 
     public void setUserDetails(String user, String email, String passwd, String player){
@@ -41,7 +52,7 @@ public class MonitorCloud {
         TAG = player;
     }
 
-    public boolean createUser() {
+    public void createUser() {
         Task<AuthResult> result = userAuth.createUserWithEmailAndPassword(EMAIL, PASSWORD);
         result.addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -63,13 +74,18 @@ public class MonitorCloud {
                     signIn();
                     firebaseUser = userAuth.getCurrentUser();
                 }
+
+                if(wAct != null){
+                    wAct.logIn();
+                }else{
+                    nuAct.logIn();
+                }
             }
         });
-        return authenticated;
     }
 
 
-    public boolean signIn() {
+    public void signIn() {
         Task<AuthResult> result = userAuth.signInWithEmailAndPassword(EMAIL, PASSWORD);
         result.addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 
@@ -78,14 +94,19 @@ public class MonitorCloud {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
                     authenticated = true;
-
                 } else {
                     Log.w(TAG, "signInWithEmail:failed", task.getException());
                     authenticated = false;
                 }
+
+                if(wAct != null){
+                    wAct.logIn();
+                }else{
+                    nuAct.logIn();
+                }
             }
         });
-        return authenticated;
+
     }
 
     public void startAuthListening() {

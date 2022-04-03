@@ -78,7 +78,7 @@ public class WelcomeActivity extends AppCompatActivity {
         user = findViewById(R.id.userNameInput);
         rounds = findViewById(R.id.roundsInput);
         passwordBox = findViewById(R.id.passwordInput);
-        monitor = new MonitorCloud();
+        monitor = new MonitorCloud(this, null);
     }
 
     public void onStart(View view) {
@@ -102,10 +102,14 @@ public class WelcomeActivity extends AppCompatActivity {
                 passwordBox.getText().toString(),
                 " ");
 
-        if(!monitor.signIn()){
+        monitor.signIn();
+        monitor.startAuthListening();
+    }
+
+    public void logIn(){
+        if(!monitor.isAuthenticated()){
             //TODO: create an error message explaining why sign-in failed
         }else {
-            monitor.startAuthListening();
             WaitingDlg dlg = new WaitingDlg();
             dlg.show(getSupportFragmentManager(), "Loading");
         }

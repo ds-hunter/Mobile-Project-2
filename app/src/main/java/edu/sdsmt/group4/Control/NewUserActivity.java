@@ -31,8 +31,16 @@ public class NewUserActivity extends AppCompatActivity {
         confirmPassword = findViewById(R.id.confirmPassword);
         create = findViewById(R.id.createButton);
 
-        monitor = new MonitorCloud();
+        monitor = new MonitorCloud(null,this);
 
+    }
+
+    public void logIn(){
+        if(!monitor.isAuthenticated()){
+            //TODO: Create error message if creation fails
+        }else{
+            finish();
+        }
     }
 
     public void onCreate(View view) {
@@ -41,10 +49,7 @@ public class NewUserActivity extends AppCompatActivity {
                 confirmPassword.getText().toString(),
                 "p");
 
-        if(!monitor.createUser()){
-            //TODO: Create error message if creation fails
-        }else{
-            finish();
-        }
+        monitor.createUser();
+        monitor.startAuthListening();
     }
 }
