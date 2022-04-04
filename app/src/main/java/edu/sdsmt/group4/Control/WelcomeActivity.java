@@ -50,6 +50,7 @@ package edu.sdsmt.group4.Control;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -57,6 +58,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -67,9 +69,10 @@ import edu.sdsmt.group4.R;
 public class WelcomeActivity extends AppCompatActivity {
     int TYPE_TEXT_VARIATION_VISIBLE_PASSWORD = 145;
     int TYPE_TEXT_VARIATION_PASSWORD = 129;
-    public final static String PLAYER1NAME_MESSAGE = "edu.sdsmt.group4.PLAYER1NAME_MESSAGE";
-    public final static String PLAYER2NAME_MESSAGE  = "edu.sdsmt.group4.PLAYER2NAME_MESSAGE";
-    public final static String ROUNDS_MESSAGE  = "edu.sdsmt.group4.ROUNDS_MESSAGE";
+    public final static String PLAYER1NAME_MESSAGE = "edu.sdsmt.group1.PLAYER1NAME_MESSAGE";
+    public final static String PLAYER2NAME_MESSAGE  = "edu.sdsmt.group1.PLAYER2NAME_MESSAGE";
+    public final static String THIS_PLAYER  = "edu.sdsmt.group1.THIS_PLAYER";
+    public final static String ROUNDS_MESSAGE  = "edu.sdsmt.group1.ROUNDS_MESSAGE";
     private SharedPreferences preferences;
     EditText user;
     EditText rounds;
@@ -92,7 +95,7 @@ public class WelcomeActivity extends AppCompatActivity {
         String userName=preferences.getString("userName", "");
         String pass=preferences.getString("password", "");
 
-        if(userName != "" && pass != "")
+        if(userName.equals("") || pass.equals(""))
         {
             user.setText(userName);
             passwordBox.setText(pass);
@@ -106,9 +109,9 @@ public class WelcomeActivity extends AppCompatActivity {
         final MonitorCloud monitor = MonitorCloud.INSTANCE;
 
          //This is old stuff but we will leave it for now
-        intent.putExtra(PLAYER1NAME_MESSAGE, "TODO");
+        /*intent.putExtra(PLAYER1NAME_MESSAGE, "TODO");
         intent.putExtra(PLAYER2NAME_MESSAGE, "TODO");
-        intent.putExtra(ROUNDS_MESSAGE, rounds.getText().toString());
+        intent.putExtra(ROUNDS_MESSAGE, rounds.getText().toString());*/
 
         // We will still need to switch activities, but instead of putExtra we will
         // be pushing to the cloud.
@@ -124,7 +127,7 @@ public class WelcomeActivity extends AppCompatActivity {
             String password=passwordBox.getText().toString().trim();
             editor.putString("userName",username);
             editor.putString("password",password);
-            editor.commit();
+            editor.apply();
             Toast.makeText(getApplicationContext(),"Save successfully",Toast.LENGTH_SHORT).show();
         }
         monitor.setWelcome(this);
@@ -147,7 +150,22 @@ public class WelcomeActivity extends AppCompatActivity {
             dlg.show(getSupportFragmentManager(), "Loading");*/
         }
     }
-
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        bundle.putString("userName", user.getText().toString());
+        bundle.putString("password", passwordBox.getText().toString());
+        bundle.putString("rounds", rounds.getText().toString());
+        bundle.putBoolean("checked", rememberBox.isChecked());
+    }
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle bundle) {
+        super.onRestoreInstanceState(bundle);
+        user.setText(bundle.getString("userName"));
+        passwordBox.setText(bundle.getString("password"));
+        rounds.setText(bundle.getString("rounds"));
+        rememberBox.setChecked(bundle.getBoolean("checked"));
+    }
     public void onAccountClick(View view){
         Intent intent = new Intent(this, NewUserActivity.class);
         startActivity(intent);
