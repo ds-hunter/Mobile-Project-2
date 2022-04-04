@@ -146,6 +146,7 @@ public class WelcomeActivity extends AppCompatActivity {
     public void onAccountClick(View view){
         Intent intent = new Intent(this, NewUserActivity.class);
         startActivity(intent);
+        logIn();
     }
 
     public void onHowToPlay(View view) {

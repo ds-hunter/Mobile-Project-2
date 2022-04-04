@@ -367,4 +367,10 @@ public class GameBoardView extends View {
         Log.d("Cloud Load", String.valueOf(gameData) + String.valueOf(player1) +
                 String.valueOf(player2));
     }
+
+    public void saveJSON(DatabaseReference snapshot) {
+
+        board.saveJSON(snapshot);
+
+    }
 }

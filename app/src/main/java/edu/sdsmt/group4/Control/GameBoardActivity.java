@@ -18,6 +18,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+
 import edu.sdsmt.group4.Model.Cloud;
 import edu.sdsmt.group4.R;
 import edu.sdsmt.group4.View.GameBoardView;

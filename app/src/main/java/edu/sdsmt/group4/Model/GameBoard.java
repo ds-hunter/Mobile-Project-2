@@ -2,6 +2,9 @@ package edu.sdsmt.group4.Model;
 
 import android.content.Context;
 import android.os.Bundle;
+
+import com.google.firebase.database.DatabaseReference;
+
 import java.util.ArrayList;
 
 public class GameBoard {
@@ -15,6 +18,7 @@ public class GameBoard {
     private final static String LOCATIONS = "GameBoard.locations";
     private final static String IDS = "GameBoard.ids";
     private int rounds;
+    private int totalRound;
     private final Context context;
 
 
@@ -124,4 +128,17 @@ public class GameBoard {
     public String getPlayer1Name() { return players.get(0).getName(); }
 
     public String getPlayer2Name() { return players.get(1).getName(); }
+
+    public void saveJSON(DatabaseReference snapshot) {
+        for (int i = 0; i < collectables.size(); i++) {
+            snapshot.child("game/collectables/c" + i + "/relx").setValue(collectables.get(i).getRelX());
+            snapshot.child("game/collectables/c" + i + "/rely").setValue(collectables.get(i).getRelY());
+        }
+        snapshot.child("game/currPlayer").setValue(currentPlayer.getId());
+        snapshot.child("game/numRounds").setValue(rounds);
+        snapshot.child("player1/score").setValue(players.get(0).getScore());
+        snapshot.child("player1/screenName").setValue(players.get(0).getName());
+        snapshot.child("player1/score").setValue(players.get(1).getScore());
+        snapshot.child("player2/screenName").setValue(players.get(1).getName());
+    }
 }
