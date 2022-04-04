@@ -1,5 +1,6 @@
 package edu.sdsmt.group4.Control;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -44,7 +45,22 @@ public class NewUserActivity extends AppCompatActivity {
             finish();
         }
     }
-
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        bundle.putString("userName", userName.getText().toString());
+        bundle.putString("newPassword", newPassword.getText().toString());
+        bundle.putString("confirmPassword", confirmPassword.getText().toString());
+        bundle.putString("email", email.getText().toString());
+    }
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle bundle) {
+        super.onRestoreInstanceState(bundle);
+        userName.setText(bundle.getString("userName"));
+        newPassword.setText(bundle.getString("newPassword"));
+        confirmPassword.setText(bundle.getString("confirmPassword"));
+        email.setText(bundle.getString("email"));
+    }
     public void onCreateClick(View view) {
         if(userName.getText().equals("") || email.getText().equals(""))
         {

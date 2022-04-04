@@ -24,14 +24,16 @@ import edu.sdsmt.group4.View.GameBoardView;
 
 public class GameBoardActivity extends AppCompatActivity {
     private GameBoardView view;
-    public static final String CAPTURED_INT = "edu.sdsmt.group4.RETURN_MESSAGE";
+    public static final String CAPTURED_INT = "edu.sdsmt.group1.RETURN_MESSAGE";
     private TextView player1Name;
     private TextView player2Name;
     private TextView player1Score;
     private TextView player2Score;
     private TextView rounds;
     private Button capture;
+    private Button captureOptions;
     private ActivityResultLauncher<Intent> captureResultLauncher;
+    private String thisPlayer;
     @Override
     protected void onSaveInstanceState(@NonNull Bundle bundle) {
         super.onSaveInstanceState(bundle);
@@ -58,6 +60,7 @@ public class GameBoardActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String name1 = intent.getStringExtra(WelcomeActivity.PLAYER1NAME_MESSAGE);
         String name2 = intent.getStringExtra(WelcomeActivity.PLAYER2NAME_MESSAGE);
+        thisPlayer = intent.getStringExtra(WelcomeActivity.THIS_PLAYER);
         String r = intent.getStringExtra(WelcomeActivity.ROUNDS_MESSAGE);
 
         if (name1.isEmpty())
@@ -77,6 +80,7 @@ public class GameBoardActivity extends AppCompatActivity {
         player1Score = findViewById(R.id.player1Score);
         player2Score = findViewById(R.id.player2Score);
         capture = findViewById(R.id.captureButton);
+        captureOptions = findViewById(R.id.optionsButton);
         capture.setEnabled(false);
         rounds = findViewById(R.id.rounds);
         player1Name.setText(name1);
@@ -103,10 +107,13 @@ public class GameBoardActivity extends AppCompatActivity {
     }
 
     private void isEndGame() {
+
         if(view.isEndGame()) {
+            //send is endGame to cloud?
              endGame();
         }
     }
+
 
     public void endGame()
     {            String winner = "WINNER\n";
@@ -141,11 +148,15 @@ public class GameBoardActivity extends AppCompatActivity {
 
                 player1Name.setTextColor(red);
                 player2Name.setTextColor(black);
+                captureOptions.setEnabled(player1Name.getText().toString().equals(thisPlayer));
+                capture.setEnabled(player1Name.getText().toString().equals(thisPlayer));
                 break;
             case 1:
                 Log.i("Inside 1", String.valueOf(view.getCurrentPlayerId()));
                 player2Name.setTextColor(red);
                 player1Name.setTextColor(black);
+                captureOptions.setEnabled(player2Name.getText().toString().equals(thisPlayer));
+                capture.setEnabled(player2Name.getText().toString().equals(thisPlayer));
                 break;
         }
 
@@ -156,7 +167,7 @@ public class GameBoardActivity extends AppCompatActivity {
     }
 
     public void onCaptureClick(View v) {
-        view.captureClicked();
+        //view.captureClicked();
         updateGUI();
         isEndGame();
     }
@@ -193,9 +204,7 @@ public class GameBoardActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.exit_game) {
-
                endGame();
-
         }
         return super.onOptionsItemSelected(item);
     }
