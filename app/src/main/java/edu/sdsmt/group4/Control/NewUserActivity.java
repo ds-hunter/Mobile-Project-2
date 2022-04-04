@@ -44,19 +44,20 @@ public class NewUserActivity extends AppCompatActivity {
 
     public void onCreateClick(View view) {
         final MonitorCloud monitor = MonitorCloud.INSTANCE;
-
+        /*
         if(userName.getText().equals("") || email.getText().equals(""))
         {
             Toast.makeText(getApplicationContext(),"Invalid user name or email",Toast.LENGTH_SHORT).show();
         }
-        else if(newPassword.getText().toString().trim().equals(confirmPassword.getText().toString().trim()))
+        else if(!newPassword.getText().toString().trim().equals(confirmPassword.getText().toString().trim()))
         {
             Log.d("pass", newPassword.getText().toString().trim());
             Log.d("pass", confirmPassword.getText().toString().trim());
             Toast.makeText(getApplicationContext(),"passwords don't match",Toast.LENGTH_SHORT).show();
         }
         else
-        {
+        {*/
+            monitor.setNewUser(this);
             monitor.setUserDetails(userName.getText().toString(),
                     email.getText().toString(),
                     confirmPassword.getText().toString(),
@@ -64,7 +65,7 @@ public class NewUserActivity extends AppCompatActivity {
             monitor.createUser();
             monitor.startAuthListening();
             finish();
-        }
+        //}
 
     }
 }

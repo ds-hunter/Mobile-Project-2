@@ -48,8 +48,11 @@ public class GameBoardActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (view.getNumPlayers() != 2) {
+            WaitingDlg dlg = new WaitingDlg(view);
+            dlg.show(getSupportFragmentManager(), "Loading");
+        }
 
-        Log.i("Reached here", "reached");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_board);
         view = this.findViewById(R.id.gameBoardView);

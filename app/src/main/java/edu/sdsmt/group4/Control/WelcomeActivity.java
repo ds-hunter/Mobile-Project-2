@@ -127,6 +127,7 @@ public class WelcomeActivity extends AppCompatActivity {
             editor.commit();
             Toast.makeText(getApplicationContext(),"Save successfully",Toast.LENGTH_SHORT).show();
         }
+        monitor.setWelcome(this);
         monitor.setUserDetails(" ",
                 user.getText().toString(),
                 passwordBox.getText().toString(),
@@ -141,8 +142,9 @@ public class WelcomeActivity extends AppCompatActivity {
         if(!authenticated){
             //TODO: create an error message explaining why sign-in failed
         }else {
+            /*
             WaitingDlg dlg = new WaitingDlg();
-            dlg.show(getSupportFragmentManager(), "Loading");
+            dlg.show(getSupportFragmentManager(), "Loading");*/
         }
     }
 
