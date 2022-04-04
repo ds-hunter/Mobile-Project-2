@@ -20,7 +20,6 @@ public class NewUserActivity extends AppCompatActivity {
     private TextView newPassword;
     private TextView confirmPassword;
     private Button create;
-    private MonitorCloud monitor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +32,10 @@ public class NewUserActivity extends AppCompatActivity {
         confirmPassword = findViewById(R.id.confirmPassword);
         create = findViewById(R.id.createButton);
 
-        monitor = new MonitorCloud(null,this);
-
     }
 
-    public void logIn(){
-        if(!monitor.isAuthenticated()){
+    public void logIn(boolean authenticated){
+        if(!authenticated){
             //TODO: Create error message if creation fails
         }else{
             finish();
@@ -46,6 +43,8 @@ public class NewUserActivity extends AppCompatActivity {
     }
 
     public void onCreateClick(View view) {
+        final MonitorCloud monitor = MonitorCloud.INSTANCE;
+
         if(userName.getText().equals("") || email.getText().equals(""))
         {
             Toast.makeText(getApplicationContext(),"Invalid user name or email",Toast.LENGTH_SHORT).show();
