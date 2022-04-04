@@ -78,17 +78,18 @@ public class WelcomeActivity extends AppCompatActivity {
     EditText rounds;
     EditText passwordBox;
     CheckBox rememberBox;
-    private MonitorCloud monitor;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
+        bundle = new Bundle();
+
         user = findViewById(R.id.userNameInput);
         rounds = findViewById(R.id.roundsInput);
         passwordBox = findViewById(R.id.passwordInput);
-        monitor = new MonitorCloud(this, null);
         rememberBox = findViewById(R.id.rememberBox);
         preferences = this.getSharedPreferences("login", 0);
         String userName=preferences.getString("userName", "");
@@ -104,6 +105,8 @@ public class WelcomeActivity extends AppCompatActivity {
     public void onStart(View view) {
 
         Intent intent = new Intent(this, GameBoardActivity.class);
+
+        final MonitorCloud monitor = MonitorCloud.INSTANCE;
 
          //This is old stuff but we will leave it for now
         /*intent.putExtra(PLAYER1NAME_MESSAGE, "TODO");
@@ -130,15 +133,15 @@ public class WelcomeActivity extends AppCompatActivity {
         monitor.setUserDetails(" ",
                 user.getText().toString(),
                 passwordBox.getText().toString(),
-                " ");
+                "player1");
 
         monitor.signIn();
         monitor.startAuthListening();
        // startActivity(intent);
     }
 
-    public void logIn(){
-        if(!monitor.isAuthenticated()){
+    public void logIn(boolean authenticated){
+        if(!authenticated){
             //TODO: create an error message explaining why sign-in failed
         }else {
             WaitingDlg dlg = new WaitingDlg();
