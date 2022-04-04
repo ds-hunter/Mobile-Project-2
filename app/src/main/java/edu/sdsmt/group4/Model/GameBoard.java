@@ -22,6 +22,7 @@ public class GameBoard {
     private final Context context;
 
 
+
     public GameBoard(Context context) {
         this.context = context;
         for (int i = 0; i < 21; i++) {
@@ -118,6 +119,8 @@ public class GameBoard {
     public void setRounds(int r) { rounds = r; }
 
     public String getRounds() { return String.valueOf(rounds); }
+
+    public int getNumPlayers() { return players.size(); }
 
     public int getCurrentPlayerId() { return currentPlayer.getId(); }
 

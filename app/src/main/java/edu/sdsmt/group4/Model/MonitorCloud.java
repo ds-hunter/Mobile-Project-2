@@ -30,7 +30,10 @@ public class MonitorCloud {
     private final FirebaseAuth userAuth = FirebaseAuth.getInstance();
     private FirebaseUser firebaseUser;
     private final DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users");
+    private final DatabaseReference matchRef = FirebaseDatabase.getInstance().getReference().child("matches");
+
     private boolean authenticated = false;
+    public final static MonitorCloud INSTANCE = new MonitorCloud();
 
     private WelcomeActivity wAct;
     private NewUserActivity nuAct;
@@ -40,10 +43,15 @@ public class MonitorCloud {
         return authenticated;
     }
 
-    public MonitorCloud(WelcomeActivity welcome, NewUserActivity newUser) {
+    public void setWelcome(WelcomeActivity welcome){
         wAct = welcome;
+    }
+
+    public void setNewUser(NewUserActivity newUser){
         nuAct = newUser;
     }
+
+    private MonitorCloud() {}
 
     public void setUserDetails(String user, String email, String passwd, String player){
         USER = user;
@@ -65,6 +73,8 @@ public class MonitorCloud {
                     result.put("/"+firebaseUser.getUid()+"/screenName", USER);
                     result.put("/"+firebaseUser.getUid()+"/password", PASSWORD);
                     result.put("/"+firebaseUser.getUid()+"/email", EMAIL);
+                    //result.put("/matches/testmatchUID/"+ TAG +"/score", 0);
+                    //result.put("/matches/testmatchUID/"+ TAG +"/screenName", USER);
                     userRef.updateChildren(result);
                 }else if(task.getException().getMessage().equals("The email address is already in use by another account.")){
                     signIn();
@@ -76,9 +86,9 @@ public class MonitorCloud {
                 }
 
                 if(wAct != null){
-                    wAct.logIn();
+                    wAct.logIn(isAuthenticated());
                 }else{
-                    nuAct.logIn();
+                    nuAct.logIn(isAuthenticated());
                 }
             }
         });
@@ -100,9 +110,9 @@ public class MonitorCloud {
                 }
 
                 if(wAct != null){
-                    wAct.logIn();
+                    wAct.logIn(isAuthenticated());
                 }else{
-                    nuAct.logIn();
+                    nuAct.logIn(isAuthenticated());
                 }
             }
         });

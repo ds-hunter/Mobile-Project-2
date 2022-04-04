@@ -17,6 +17,8 @@ import com.google.firebase.database.DatabaseReference;
 
 import java.util.Objects;
 import java.util.Random;
+
+import edu.sdsmt.group4.Control.WaitingDlg;
 import edu.sdsmt.group4.Model.CaptureObject;
 import edu.sdsmt.group4.Model.CircleCapture;
 import edu.sdsmt.group4.Model.Collectable;
@@ -353,6 +355,8 @@ public class GameBoardView extends View {
 
     public boolean isEndGame() { return board.isEndGame(); }
 
+    public int getNumPlayers() { return board.getNumPlayers(); }
+
     public void setDefaultPlayer() { board.setDefaultPlayer(); }
 
     public String getPlayer1Name() { return board.getPlayer1Name(); }
@@ -361,11 +365,6 @@ public class GameBoardView extends View {
 
     public void loadJSON(DataSnapshot snapshot) {
         DataSnapshot gameData = snapshot.child("game");
-        DataSnapshot player1 = snapshot.child("player1");
-        DataSnapshot player2 = snapshot.child("player2");
-
-        Log.d("Cloud Load", String.valueOf(gameData) + String.valueOf(player1) +
-                String.valueOf(player2));
     }
 
     public void saveJSON(DatabaseReference snapshot) {

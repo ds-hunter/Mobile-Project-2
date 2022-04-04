@@ -50,6 +50,7 @@ package edu.sdsmt.group4.Control;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -57,6 +58,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -67,31 +69,33 @@ import edu.sdsmt.group4.R;
 public class WelcomeActivity extends AppCompatActivity {
     int TYPE_TEXT_VARIATION_VISIBLE_PASSWORD = 145;
     int TYPE_TEXT_VARIATION_PASSWORD = 129;
-    public final static String PLAYER1NAME_MESSAGE = "edu.sdsmt.group4.PLAYER1NAME_MESSAGE";
-    public final static String PLAYER2NAME_MESSAGE  = "edu.sdsmt.group4.PLAYER2NAME_MESSAGE";
-    public final static String ROUNDS_MESSAGE  = "edu.sdsmt.group4.ROUNDS_MESSAGE";
+    public final static String PLAYER1NAME_MESSAGE = "edu.sdsmt.group1.PLAYER1NAME_MESSAGE";
+    public final static String PLAYER2NAME_MESSAGE  = "edu.sdsmt.group1.PLAYER2NAME_MESSAGE";
+    public final static String THIS_PLAYER  = "edu.sdsmt.group1.THIS_PLAYER";
+    public final static String ROUNDS_MESSAGE  = "edu.sdsmt.group1.ROUNDS_MESSAGE";
     private SharedPreferences preferences;
     EditText user;
     EditText rounds;
     EditText passwordBox;
     CheckBox rememberBox;
-    private MonitorCloud monitor;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
+        bundle = new Bundle();
+
         user = findViewById(R.id.userNameInput);
         rounds = findViewById(R.id.roundsInput);
         passwordBox = findViewById(R.id.passwordInput);
-        monitor = new MonitorCloud(this, null);
         rememberBox = findViewById(R.id.rememberBox);
         preferences = this.getSharedPreferences("login", 0);
         String userName=preferences.getString("userName", "");
         String pass=preferences.getString("password", "");
 
-        if(userName != "" && pass != "")
+        if(userName.equals("") || pass.equals(""))
         {
             user.setText(userName);
             passwordBox.setText(pass);
@@ -102,10 +106,12 @@ public class WelcomeActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, GameBoardActivity.class);
 
+        final MonitorCloud monitor = MonitorCloud.INSTANCE;
+
          //This is old stuff but we will leave it for now
-        intent.putExtra(PLAYER1NAME_MESSAGE, "TODO");
+        /*intent.putExtra(PLAYER1NAME_MESSAGE, "TODO");
         intent.putExtra(PLAYER2NAME_MESSAGE, "TODO");
-        intent.putExtra(ROUNDS_MESSAGE, rounds.getText().toString());
+        intent.putExtra(ROUNDS_MESSAGE, rounds.getText().toString());*/
 
         // We will still need to switch activities, but instead of putExtra we will
         // be pushing to the cloud.
@@ -121,28 +127,45 @@ public class WelcomeActivity extends AppCompatActivity {
             String password=passwordBox.getText().toString().trim();
             editor.putString("userName",username);
             editor.putString("password",password);
-            editor.commit();
+            editor.apply();
             Toast.makeText(getApplicationContext(),"Save successfully",Toast.LENGTH_SHORT).show();
         }
+        monitor.setWelcome(this);
         monitor.setUserDetails(" ",
                 user.getText().toString(),
                 passwordBox.getText().toString(),
-                " ");
+                "player1");
 
         monitor.signIn();
         monitor.startAuthListening();
        // startActivity(intent);
     }
 
-    public void logIn(){
-        if(!monitor.isAuthenticated()){
+    public void logIn(boolean authenticated){
+        if(!authenticated){
             //TODO: create an error message explaining why sign-in failed
         }else {
+            /*
             WaitingDlg dlg = new WaitingDlg();
-            dlg.show(getSupportFragmentManager(), "Loading");
+            dlg.show(getSupportFragmentManager(), "Loading");*/
         }
     }
-
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        bundle.putString("userName", user.getText().toString());
+        bundle.putString("password", passwordBox.getText().toString());
+        bundle.putString("rounds", rounds.getText().toString());
+        bundle.putBoolean("checked", rememberBox.isChecked());
+    }
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle bundle) {
+        super.onRestoreInstanceState(bundle);
+        user.setText(bundle.getString("userName"));
+        passwordBox.setText(bundle.getString("password"));
+        rounds.setText(bundle.getString("rounds"));
+        rememberBox.setChecked(bundle.getBoolean("checked"));
+    }
     public void onAccountClick(View view){
         Intent intent = new Intent(this, NewUserActivity.class);
         startActivity(intent);

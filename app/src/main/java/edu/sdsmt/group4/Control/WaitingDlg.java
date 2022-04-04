@@ -15,8 +15,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import edu.sdsmt.group4.R;
+import edu.sdsmt.group4.View.GameBoardView;
 
 public class WaitingDlg extends DialogFragment {
+    private GameBoardView view;
+
+    public WaitingDlg(GameBoardView view) {
+        this.view = view;
+    }
+
     @Override
     @NonNull
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -36,4 +43,6 @@ public class WaitingDlg extends DialogFragment {
 
         return builder.create();
     }
+
+
 }
