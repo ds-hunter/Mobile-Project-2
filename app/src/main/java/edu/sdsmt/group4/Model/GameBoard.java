@@ -220,4 +220,15 @@ public class GameBoard {
         //return "testPlayer@gmail.com";
         return players.get(0).getEmail();
     }
+
+    public void addCollectable(int id, float relX, float relY, boolean shuffle) {
+        Collectable c = new Collectable(context, id, 0.2f);
+        c.setRelX(relX);
+        c.setRelY(relY);
+        c.setShuffle(shuffle);
+        collectables.add(c);
+    }
+    public void clearCollectables() {
+        collectables.clear();
+    }
 }
