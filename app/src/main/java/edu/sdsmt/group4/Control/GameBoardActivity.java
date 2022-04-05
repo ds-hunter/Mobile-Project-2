@@ -102,7 +102,7 @@ public class GameBoardActivity extends AppCompatActivity {
         player1Score.setText("0");
         rounds.setText("1");
         player1Name.setTextColor(Color.parseColor("#FF0000"));
-        //updateGUI();
+
 
         //any target
         ActivityResultContracts.StartActivityForResult contract =

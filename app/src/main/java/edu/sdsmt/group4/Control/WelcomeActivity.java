@@ -103,10 +103,10 @@ public class WelcomeActivity extends AppCompatActivity {
 
     public void onStart(View view) {
         final MonitorCloud monitor = MonitorCloud.INSTANCE;
-
+        Intent intent = new Intent(this, GameBoardActivity.class);
          //This is old stuff but we will leave it for no
 
-       /* intent.putExtra(PLAYER2NAME_MESSAGE, "TODO");*/
+       intent.putExtra(THIS_PLAYER, user.getText().toString());
 
 
         if(rememberBox.isChecked())
@@ -120,6 +120,8 @@ public class WelcomeActivity extends AppCompatActivity {
         }
         monitor.setWelcome(this);
         String roundStr = rounds.getText().toString();
+        if(roundStr.trim().equals(""))
+            roundStr = "5";
         int roundTotal = Integer.parseInt(roundStr);
         monitor.setUserDetails(" ",
                 user.getText().toString(),
@@ -127,6 +129,8 @@ public class WelcomeActivity extends AppCompatActivity {
                 roundTotal);
         monitor.signIn();
         monitor.startAuthListening();
+        if(monitor.isAuthenticated())
+            startActivity(intent);
     }
 
     public void logIn(boolean authenticated){
