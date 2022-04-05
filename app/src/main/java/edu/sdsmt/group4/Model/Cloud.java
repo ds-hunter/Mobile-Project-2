@@ -75,4 +75,11 @@ public class Cloud {
         view.saveJSON(myRef);
 
     }
+
+    public void reset(){
+        matches.child("testmatchUID/player1").removeValue();
+        matches.child("testmatchUID/player2").removeValue();
+
+        matches.child("testmatchUID/game/currRound").setValue("5");
+    }
 }
