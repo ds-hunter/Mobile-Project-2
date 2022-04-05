@@ -386,7 +386,7 @@ public class GameBoardView extends View {
     {
         int red = Color.parseColor("#FF0000");
         int black = Color.parseColor("#FFFFFF");
-        
+
         p1.setText(getPlayer1Name());
         p2.setText(getPlayer2Name());
         p1Score.setText(getPlayer1Score());

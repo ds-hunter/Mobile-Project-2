@@ -186,7 +186,7 @@ public class GameBoard {
             players.get(players.size() - 1 ).setEmail(email);
         }
 
-        public void setPlayer (int id){
+        public void setPlayer ( int id){
             currentPlayer = players.get(id);
         }
 
@@ -200,6 +200,7 @@ public class GameBoard {
                 snapshot.child("game/collectables/c" + i + "/relx").setValue(collectables.get(i).getRelX());
                 snapshot.child("game/collectables/c" + i + "/rely").setValue(collectables.get(i).getRelY());
             }
+            snapshot.child("game/collectableAmt").setValue(collectables.size());
             snapshot.child("game/currPlayer").setValue(currentPlayer.getId());
             snapshot.child("game/currRound").setValue(getRounds());
             snapshot.child("player1/score").setValue(getPlayer1Score());
