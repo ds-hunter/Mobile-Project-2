@@ -11,6 +11,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -368,6 +370,37 @@ public class GameBoardView extends View {
     public String getPlayer1Name() { return board.getPlayer1Name(); }
 
     public String getPlayer2Name() { return board.getPlayer2Name(); }
+
+    public void updateGUI(TextView p1, TextView p2, TextView rounds,  Button captureOptions, Button capture, String thisPlayer)
+    {
+        int red = Color.parseColor("#FF0000");
+        int black = Color.parseColor("#FFFFFF");
+
+        if (getNumPlayers() == 2) {
+            switch (getCurrentPlayerId()) {
+                case 0:
+
+                    p1.setTextColor(red);
+                    p2.setTextColor(black);
+                    captureOptions.setEnabled(getPlayer1Email().equals(thisPlayer));
+                    capture.setEnabled(getPlayer1Email().equals(thisPlayer));
+                    break;
+                case 1:
+                    //  Log.i("Inside 1", String.valueOf(view.getCurrentPlayerId()));
+                    p2.setTextColor(red);
+                    p1.setTextColor(black);
+                    captureOptions.setEnabled(getPlayer2Email().equals(thisPlayer));
+                    capture.setEnabled(getPlayer2Email().equals(thisPlayer));
+                    break;
+            }
+
+            //player1Score.setText(view.getPlayer1Score());
+            //player2Score.setText(view.getPlayer2Score());
+            rounds.setText(getRounds());
+            capture.setEnabled(isCaptureEnabled());
+        }
+
+    }
 
     public void loadJSON(DataSnapshot snapshot) {
         Log.d("Cloud Load", "Pulling data from firebase");

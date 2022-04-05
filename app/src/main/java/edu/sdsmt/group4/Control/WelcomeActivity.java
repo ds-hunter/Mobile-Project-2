@@ -94,8 +94,7 @@ public class WelcomeActivity extends AppCompatActivity {
         preferences = this.getSharedPreferences("login", 0);
         String userName=preferences.getString("userName", "");
         String pass=preferences.getString("password", "");
-
-        if(userName.equals("") || pass.equals(""))
+        if(!userName.equals("") && !pass.equals(""))
         {
             user.setText(userName);
             passwordBox.setText(pass);
@@ -113,12 +112,6 @@ public class WelcomeActivity extends AppCompatActivity {
        /* intent.putExtra(PLAYER2NAME_MESSAGE, "TODO");*/
         intent.putExtra(ROUNDS_MESSAGE, rounds.getText().toString());
 
-        // We will still need to switch activities, but instead of putExtra we will
-        // be pushing to the cloud.
-       //startActivity(intent);
-       /*email.setText("");
-        password.setText("");
-        rounds.setText("");*/
 
         if(rememberBox.isChecked())
         {
@@ -128,7 +121,6 @@ public class WelcomeActivity extends AppCompatActivity {
             editor.putString("userName",username);
             editor.putString("password",password);
             editor.apply();
-            Toast.makeText(getApplicationContext(),"Save successfully",Toast.LENGTH_SHORT).show();
         }
         monitor.setWelcome(this);
         monitor.setUserDetails(" ",
@@ -139,7 +131,8 @@ public class WelcomeActivity extends AppCompatActivity {
         intent.putExtra(THIS_PLAYER, user.getText().toString());
         monitor.signIn();
         monitor.startAuthListening();
-        startActivity(intent);
+        if(monitor.isAuthenticated())
+            startActivity(intent);
     }
 
     public void logIn(boolean authenticated){

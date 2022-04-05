@@ -56,7 +56,7 @@ public class GameBoardActivity extends AppCompatActivity {
         thisPlayer = bundle.getString("THIS_PLAYER");
         Log.d("GameBoard: ", " LOADED INSTANCE STATE ");
         view.loadInstanceState(bundle);
-        updateGUI();
+        view.updateGUI(player1Name,player2Name,rounds, captureOptions,capture,thisPlayer );
     }
 
     @Override
@@ -94,6 +94,7 @@ public class GameBoardActivity extends AppCompatActivity {
         capture = findViewById(R.id.captureButton);
         captureOptions = findViewById(R.id.optionsButton);
         capture.setEnabled(false);
+        //load from cloud here?
         rounds = findViewById(R.id.rounds);
         player1Name.setText(R.string.Name1);
         player2Score.setText("0");
@@ -101,7 +102,7 @@ public class GameBoardActivity extends AppCompatActivity {
         player1Score.setText("0");
         rounds.setText("1");
         player1Name.setTextColor(Color.parseColor("#FF0000"));
-
+        //updateGUI();
 
         //any target
         ActivityResultContracts.StartActivityForResult contract =
@@ -150,39 +151,10 @@ public class GameBoardActivity extends AppCompatActivity {
         startActivity(intent);
         finish();}
 
-    @SuppressLint("ClickableViewAccessibility")
-    private void updateGUI() {
-        int red = Color.parseColor("#FF0000");
-        int black = Color.parseColor("#FFFFFF");
-
-        if (view.getNumPlayers() == 2) {
-            switch (view.getCurrentPlayerId()) {
-                case 0:
-
-                    player1Name.setTextColor(red);
-                    player2Name.setTextColor(black);
-                    captureOptions.setEnabled(view.getPlayer1Email().equals(thisPlayer));
-                    capture.setEnabled(view.getPlayer1Email().equals(thisPlayer));
-                    break;
-                case 1:
-                    Log.i("Inside 1", String.valueOf(view.getCurrentPlayerId()));
-                    player2Name.setTextColor(red);
-                    player1Name.setTextColor(black);
-                    captureOptions.setEnabled(view.getPlayer2Email().equals(thisPlayer));
-                    capture.setEnabled(view.getPlayer2Email().equals(thisPlayer));
-                    break;
-            }
-
-            //player1Score.setText(view.getPlayer1Score());
-            //player2Score.setText(view.getPlayer2Score());
-            rounds.setText(view.getRounds());
-            capture.setEnabled(view.isCaptureEnabled());
-        }
-    }
 
     public void onCaptureClick(View v) {
         view.captureClicked();
-        updateGUI();
+        view.updateGUI(player1Name,player2Name,rounds, captureOptions,capture,thisPlayer );
         isEndGame();
     }
 
