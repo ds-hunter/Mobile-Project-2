@@ -20,6 +20,9 @@ import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import edu.sdsmt.group4.Model.Cloud;
 import edu.sdsmt.group4.R;
 import edu.sdsmt.group4.View.GameBoardView;
@@ -36,6 +39,10 @@ public class GameBoardActivity extends AppCompatActivity {
     private Button captureOptions;
     private ActivityResultLauncher<Intent> captureResultLauncher;
     private String thisPlayer;
+    private WaitingDlg dlg;
+    Timer timer;
+    Timer loadTimer;
+
     @Override
     protected void onSaveInstanceState(@NonNull Bundle bundle) {
         super.onSaveInstanceState(bundle);
@@ -52,32 +59,28 @@ public class GameBoardActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (view.getNumPlayers() != 2) {
-            WaitingDlg dlg = new WaitingDlg(view);
-            dlg.show(getSupportFragmentManager(), "Loading");
-        }
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_board);
-        view = this.findViewById(R.id.gameBoardView);
 
+        // Set the main load timer
+        loadTimer = new Timer();
+        loadTimer.schedule(new LoadTask(), 3000, 3000);
+
+        // Set the waiting for player timer
+        view = this.findViewById(R.id.gameBoardView);
+        if (view.getNumPlayers() != 2) {
+            dlg = new WaitingDlg(view);
+            dlg.show(getSupportFragmentManager(), "Loading");
+            timer = new Timer();
+            timer.schedule(new WaitForPlayerTask(), 1000, 1000);
+        }
         //get player names and no of rounds from prev
         Intent intent = getIntent();
-        String name1 = intent.getStringExtra(WelcomeActivity.PLAYER1NAME_MESSAGE);
-        String name2 = intent.getStringExtra(WelcomeActivity.PLAYER2NAME_MESSAGE);
         thisPlayer = intent.getStringExtra(WelcomeActivity.THIS_PLAYER);
-        String r = intent.getStringExtra(WelcomeActivity.ROUNDS_MESSAGE);
 
-        if (name1.isEmpty())
-            name1 = getString(R.string.Name1);
-        if (name2.isEmpty())
-            name2 = getString(R.string.Name2);
-        if (r.isEmpty() || Integer.parseInt(r) <= 0)
-            r = "5";
-
-        view.addPlayer(name1,0);
-        view.addPlayer(name2,1);
-        view.setRounds(Integer.parseInt(r));
+        //view.addPlayer(name1,0);
+        //view.addPlayer(name2,1);
+        view.setRounds(1);
         view.setDefaultPlayer();
 
         player1Name = findViewById(R.id.player1Name);
@@ -88,11 +91,11 @@ public class GameBoardActivity extends AppCompatActivity {
         captureOptions = findViewById(R.id.optionsButton);
         capture.setEnabled(false);
         rounds = findViewById(R.id.rounds);
-        player1Name.setText(name1);
+        player1Name.setText(R.string.Name1);
         player2Score.setText("0");
-        player2Name.setText(name2);
+        player2Name.setText(R.string.Name2);
         player1Score.setText("0");
-        rounds.setText(r);
+        rounds.setText("1");
         player1Name.setTextColor(Color.parseColor("#FF0000"));
 
 
@@ -148,25 +151,25 @@ public class GameBoardActivity extends AppCompatActivity {
         int red = Color.parseColor("#FF0000");
         int black = Color.parseColor("#FFFFFF");
 
-        switch (view.getCurrentPlayerId()) {
-            case 0:Log.i("Inside 0", String.valueOf(view.getCurrentPlayerId()));
+        if (view.getNumPlayers() == 2) {
+            switch (view.getCurrentPlayerId()) {
+                case 0:
 
-                player1Name.setTextColor(red);
-                player2Name.setTextColor(black);
-                captureOptions.setEnabled(player1Name.getText().toString().equals(thisPlayer));
-                capture.setEnabled(player1Name.getText().toString().equals(thisPlayer));
-                break;
-            case 1:
-                Log.i("Inside 1", String.valueOf(view.getCurrentPlayerId()));
-                player2Name.setTextColor(red);
-                player1Name.setTextColor(black);
-                captureOptions.setEnabled(player2Name.getText().toString().equals(thisPlayer));
-                capture.setEnabled(player2Name.getText().toString().equals(thisPlayer));
-                break;
+                    player1Name.setTextColor(red);
+                    player2Name.setTextColor(black);
+                    captureOptions.setEnabled(player1Name.getText().toString().equals(thisPlayer));
+                    capture.setEnabled(player1Name.getText().toString().equals(thisPlayer));
+                    break;
+                case 1:
+                    player2Name.setTextColor(red);
+                    player1Name.setTextColor(black);
+                    captureOptions.setEnabled(player2Name.getText().toString().equals(thisPlayer));
+                    capture.setEnabled(player2Name.getText().toString().equals(thisPlayer));
+                    break;
+            }
+            player1Score.setText(view.getPlayer1Score());
+            player2Score.setText(view.getPlayer2Score());
         }
-
-        player1Score.setText(view.getPlayer1Score());
-        player2Score.setText(view.getPlayer2Score());
         rounds.setText(view.getRounds());
         capture.setEnabled(view.isCaptureEnabled());
     }
@@ -212,5 +215,26 @@ public class GameBoardActivity extends AppCompatActivity {
                endGame();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    class WaitForPlayerTask extends TimerTask {
+        @Override
+        public void run() {
+            if (view.getNumPlayers() == 2) {
+                if (dlg != null) {
+                    dlg.dismiss();
+                }
+                timer.cancel();
+            }
+        }
+    }
+
+    class LoadTask extends TimerTask {
+        @Override
+        public void run() {
+            Cloud cloud = new Cloud();
+            cloud.loadFromCloud(view);
+            // updateGUI(); This can't be called because its on a different thread
+        }
     }
 }

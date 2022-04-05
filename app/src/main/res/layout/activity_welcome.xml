@@ -23,7 +23,7 @@
         android:id="@+id/userNameInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/emailInputHint"
+        android:hint="@string/username"
         android:minHeight="48dp"
         android:textColorHint="#757575"
         app:layout_constraintBottom_toBottomOf="parent"

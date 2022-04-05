@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import java.util.Objects;
 import java.util.Random;
 
+import edu.sdsmt.group4.Control.GameBoardActivity;
 import edu.sdsmt.group4.Control.WaitingDlg;
 import edu.sdsmt.group4.Model.CaptureObject;
 import edu.sdsmt.group4.Model.CircleCapture;
@@ -115,7 +116,7 @@ public class GameBoardView extends View {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         aspect = metrics.widthPixels / (float)metrics.heightPixels;
 
-        board = new GameBoard(getContext());
+        board = new GameBoard(getContext(), this);
 
         fillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         fillPaint.setColor(0xffcccccc);
@@ -341,8 +342,6 @@ public class GameBoardView extends View {
         }
     }
 
-    public void addPlayer(String name, int id) { board.addPlayer(name, id); }
-
     public void setRounds(int r) { board.setRounds(r); }
 
     public String getRounds(){ return board.getRounds(); }
@@ -364,12 +363,30 @@ public class GameBoardView extends View {
     public String getPlayer2Name() { return board.getPlayer2Name(); }
 
     public void loadJSON(DataSnapshot snapshot) {
+        Log.d("Cloud Load", "Pulling data from firebase");
         DataSnapshot gameData = snapshot.child("game");
+        if (snapshot.hasChild("player1") && board.getNumPlayers() == 0) {
+            String name = (String) snapshot.child("player1").child("screenName").getValue();
+            // load player 1 data
+            board.addPlayer(name);
+        }
+        if (snapshot.hasChild("player2") && board.getNumPlayers() == 1) {
+            // load player 2 data
+            String name = (String) snapshot.child("player2").child("screenName").getValue();
+            board.addPlayer(name);
+        }
+
+        // load game data
+        board.setRounds(Integer.parseInt(Objects.requireNonNull(gameData.child("currRound").getValue()).toString()));
+        board.setPlayer(Integer.parseInt(Objects.requireNonNull(gameData.child("currPlayer").getValue()).toString()));
+
+        // load collectables
+        for (Object c : gameData.child("collectables").getChildren()) {
+            // load collectable data
+        }
     }
 
     public void saveJSON(DatabaseReference snapshot) {
-
         board.saveJSON(snapshot);
-
     }
 }
