@@ -473,23 +473,21 @@ public class GameBoardView extends View {
         }
         board.setPlayer(Integer.parseInt(Objects.requireNonNull(gameData.child("currPlayer").getValue()).toString()));
         int collectableAmt = Integer.parseInt(Objects.requireNonNull(gameData.child("collectableAmt").getValue()).toString());
-        int i = 0;
-        Log.d("LOAD", String.valueOf(Objects.requireNonNull(gameData.child("collectables").getChildren())));
 
         // load collectables
         board.clearCollectables();
-        for (DataSnapshot c : gameData.child("collectables").getChildren()) {
-            if (i == collectableAmt) break;
+        for (int i = 0; i <= collectableAmt; i++) {
+            DataSnapshot c = gameData.child("collectables").child("c" + i);
             // load collectable data
             float relX = Float.parseFloat(Objects.requireNonNull(c.child("relx").getValue()).toString());
             float relY = Float.parseFloat(Objects.requireNonNull(c.child("rely").getValue()).toString());
             int id = Integer.parseInt(Objects.requireNonNull(c.getKey()).substring(1));
             Log.d("Creating Collectable", id + ": " + relX + ", " + relY);
             board.addCollectable(id, relX, relY, false);
-            i++;
         }
 
         updateGUI(player1Name,player2Name,p1Score,p2Score,rounds,captureOptions,capture,thisPlayer);
+        invalidate();
     }
 
     public void saveJSON(DatabaseReference snapshot) {
