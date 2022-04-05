@@ -115,8 +115,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
         // We will still need to switch activities, but instead of putExtra we will
         // be pushing to the cloud.
-       // startActivity(intent);
-       /* email.setText("");
+       //startActivity(intent);
+       /*email.setText("");
         password.setText("");
         rounds.setText("");*/
 
