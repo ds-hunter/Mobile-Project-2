@@ -42,7 +42,7 @@ public class WaitingDlg extends DialogFragment {
 
         // Add a cancel button
         builder.setNegativeButton(android.R.string.cancel, (dialog, id) -> {
-            // Cancel just closes the dialog box
+
         });
 
         return builder.create();

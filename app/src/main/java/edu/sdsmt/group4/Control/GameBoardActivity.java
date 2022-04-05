@@ -159,24 +159,25 @@ public class GameBoardActivity extends AppCompatActivity {
             switch (view.getCurrentPlayerId()) {
                 case 0:
 
-                player1Name.setTextColor(red);
-                player2Name.setTextColor(black);
-                captureOptions.setEnabled(view.getPlayer1Email().equals(thisPlayer));
-                capture.setEnabled(view.getPlayer1Email().equals(thisPlayer));
-                break;
-            case 1:
-                Log.i("Inside 1", String.valueOf(view.getCurrentPlayerId()));
-                player2Name.setTextColor(red);
-                player1Name.setTextColor(black);
-                captureOptions.setEnabled(view.getPlayer2Email().equals(thisPlayer));
-                capture.setEnabled(view.getPlayer2Email().equals(thisPlayer));
-                break;
-        }
+                    player1Name.setTextColor(red);
+                    player2Name.setTextColor(black);
+                    captureOptions.setEnabled(view.getPlayer1Email().equals(thisPlayer));
+                    capture.setEnabled(view.getPlayer1Email().equals(thisPlayer));
+                    break;
+                case 1:
+                    Log.i("Inside 1", String.valueOf(view.getCurrentPlayerId()));
+                    player2Name.setTextColor(red);
+                    player1Name.setTextColor(black);
+                    captureOptions.setEnabled(view.getPlayer2Email().equals(thisPlayer));
+                    capture.setEnabled(view.getPlayer2Email().equals(thisPlayer));
+                    break;
+            }
 
-        player1Score.setText(view.getPlayer1Score());
-        player2Score.setText(view.getPlayer2Score());
-        rounds.setText(view.getRounds());
-        capture.setEnabled(view.isCaptureEnabled());
+            //player1Score.setText(view.getPlayer1Score());
+            //player2Score.setText(view.getPlayer2Score());
+            rounds.setText(view.getRounds());
+            capture.setEnabled(view.isCaptureEnabled());
+        }
     }
 
     public void onCaptureClick(View v) {
@@ -196,7 +197,7 @@ public class GameBoardActivity extends AppCompatActivity {
         builder.show();
     }
 
-    public void onCaptureOptionsClick(View view) {
+    public void onCaptureOptionsClick(View v){
         Intent switchActivityIntent = new Intent(this, CaptureSelectionActivity.class);
         captureResultLauncher.launch(switchActivityIntent);
     }
