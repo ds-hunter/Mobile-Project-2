@@ -30,7 +30,7 @@ public class MonitorCloud {
     private String EMAIL;
     private String PASSWORD;
     private String TAG;
-    private String ROUNDS;
+    private int ROUNDS;
     // Firebase instance variables
     private final FirebaseAuth userAuth = FirebaseAuth.getInstance();
     private FirebaseUser firebaseUser;
@@ -58,11 +58,10 @@ public class MonitorCloud {
 
     private MonitorCloud() {}
 
-    public void setUserDetails(String user, String email, String passwd, String player, String rounds){
+    public void setUserDetails(String user, String email, String passwd, int rounds){
         USER = user;
         EMAIL = email;
         PASSWORD = passwd;
-        TAG = player;
         ROUNDS = rounds;
     }
 
@@ -79,8 +78,6 @@ public class MonitorCloud {
                     result.put("/"+firebaseUser.getUid()+"/screenName", USER);
                     result.put("/"+firebaseUser.getUid()+"/password", PASSWORD);
                     result.put("/"+firebaseUser.getUid()+"/email", EMAIL);
-                    //result.put("/matches/testmatchUID/"+ TAG +"/score", 0);
-                    //result.put("/matches/testmatchUID/"+ TAG +"/screenName", USER);
                     userRef.updateChildren(result);
                 }else if(task.getException().getMessage().equals("The email address is already in use by another account.")){
                     //signIn();

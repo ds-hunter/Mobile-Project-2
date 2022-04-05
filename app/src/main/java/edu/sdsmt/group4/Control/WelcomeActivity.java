@@ -119,11 +119,12 @@ public class WelcomeActivity extends AppCompatActivity {
             editor.apply();
         }
         monitor.setWelcome(this);
+        String roundStr = rounds.getText().toString();
+        int roundTotal = Integer.parseInt(roundStr);
         monitor.setUserDetails(" ",
                 user.getText().toString(),
                 passwordBox.getText().toString(),
-                "player1",
-                rounds.getText().toString());
+                roundTotal);
         monitor.signIn();
         monitor.startAuthListening();
     }

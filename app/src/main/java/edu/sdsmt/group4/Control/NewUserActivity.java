@@ -75,7 +75,7 @@ public class NewUserActivity extends AppCompatActivity {
             monitor.setUserDetails(userName.getText().toString(),
                     email.getText().toString(),
                     confirmPassword.getText().toString(),
-                    "p", "0");
+                    0);
             monitor.createUser();
             monitor.startAuthListening();
             finish();
