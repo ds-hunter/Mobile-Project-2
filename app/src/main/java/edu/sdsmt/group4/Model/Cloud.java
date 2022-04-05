@@ -2,6 +2,8 @@ package edu.sdsmt.group4.Model;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -18,14 +20,14 @@ public class Cloud {
     private final static FirebaseDatabase database = FirebaseDatabase.getInstance();
     private static DatabaseReference matches = database.getReference("matches");
 
-    public void loadFromCloud(final GameBoardView view) {
+    public void loadFromCloud(final GameBoardView view, TextView player1Name, TextView player2Name, TextView rounds, Button captureOptions, Button capture, String thisPlayer) {
         DatabaseReference matchRef = matches.child("testmatchUID");
 
         // Read from the database
         matchRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                view.loadJSON(dataSnapshot);
+                view.loadJSON(dataSnapshot, player1Name,player2Name,rounds, captureOptions,capture,thisPlayer);
             }
 
             @Override
@@ -37,22 +39,10 @@ public class Cloud {
         });
     }
 
-    public void saveToCloud(String name, GameBoardView view) {
-        name = name.trim();
-        if(name.length() == 0) {
-            Toast.makeText(view.getContext(), R.string.saving_fail, Toast.LENGTH_SHORT).show();
-        }
-        String key =matches.push().getKey();
-        matches = matches.child(key);
-        matches.child("name").setValue(name);
+    public void saveToCloud(GameBoardView view) {
+        DatabaseReference myRef = matches.child("testmatchUID");
 
-        view.saveJSON(matches);
+        view.saveJSON(myRef);
 
-        matches.child("name").setValue(name, new DatabaseReference.CompletionListener() {
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                if(databaseError != null) {
-                    Toast.makeText(view.getContext(), R.string.saving_fail, Toast.LENGTH_SHORT).show();
-                }
-            }});
     }
 }

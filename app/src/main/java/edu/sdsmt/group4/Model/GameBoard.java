@@ -110,7 +110,7 @@ public class GameBoard {
                 players.get(i).setEmail(playerEmails[i]);
             }
 
-            currentPlayer = new Player(players.get(id).getName(), id);
+            // currentPlayer = new Player(players.get(id).getName(), id);
         }
 
         public boolean isEndGame () {
@@ -139,19 +139,27 @@ public class GameBoard {
         }
 
         public String getPlayer1Score () {
+            if (getNumPlayers() < 1)
+                return "0";
             return String.valueOf(players.get(0).getScore());
         }
 
         public String getPlayer2Score () {
+            if (getNumPlayers() < 2)
+                return "0";
             return String.valueOf(players.get(1).getScore());
         }
 
         public String getPlayer1Name () {
-            return players.get(0).getName();
+            if (players.size() >= 1)
+                return players.get(0).getName();
+            return "Player 1";
         }
 
         public String getPlayer2Name () {
-            return players.get(1).getName();
+            if (players.size() >= 2)
+                return players.get(1).getName();
+            return "Player 2";
         }
 
         public void addPlayer ( String screenName, String email ) {

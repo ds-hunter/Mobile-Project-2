@@ -73,5 +73,7 @@ CAPTURE OPTIONS\n\n
     <string name="exit_game">End Game</string>
     <string name="remember">Remember</string>
 
+    <string name="leave_match">Leave Match</string>
+
 </resources>
 

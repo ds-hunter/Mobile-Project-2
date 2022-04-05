@@ -94,12 +94,11 @@ public class GameBoardActivity extends AppCompatActivity {
         capture = findViewById(R.id.captureButton);
         captureOptions = findViewById(R.id.optionsButton);
         capture.setEnabled(false);
+        //load from cloud here?
+        player1Score.setText(view.getPlayer1Score());
+        player2Score.setText(view.getPlayer2Score());
         rounds = findViewById(R.id.rounds);
-        player1Name.setText(R.string.Name1);
-        player2Score.setText("0");
-        player2Name.setText(R.string.Name2);
-        player1Score.setText("0");
-        rounds.setText("1");
+        rounds.setText("N/A");
         player1Name.setTextColor(Color.parseColor("#FF0000"));
 
 
@@ -154,6 +153,8 @@ public class GameBoardActivity extends AppCompatActivity {
     public void onCaptureClick(View v) {
         view.captureClicked();
         view.updateGUI(player1Name,player2Name,rounds, captureOptions,capture,thisPlayer );
+        Cloud cloud = new Cloud();
+        cloud.saveToCloud(view);
         isEndGame();
     }
 
@@ -210,8 +211,7 @@ public class GameBoardActivity extends AppCompatActivity {
         @Override
         public void run() {
             Cloud cloud = new Cloud();
-            cloud.loadFromCloud(view);
-            // updateGUI(); This can't be called because its on a different thread
+            cloud.loadFromCloud(view,player1Name,player2Name,rounds, captureOptions,capture,thisPlayer);
         }
     }
 }
