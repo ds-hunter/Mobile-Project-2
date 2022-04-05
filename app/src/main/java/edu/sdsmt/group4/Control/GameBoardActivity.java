@@ -118,7 +118,6 @@ public class GameBoardActivity extends AppCompatActivity {
     }
 
     private void isEndGame() {
-
         if(view.isEndGame()) {
             //send is endGame to cloud?
              endGame();
@@ -146,6 +145,7 @@ public class GameBoardActivity extends AppCompatActivity {
         else
             winner = "TIE!";
         intent.putExtra(EndGameActivity.WINNER_MESSAGE, winner);
+        loadTimer.cancel();
         startActivity(intent);
         finish();}
 
@@ -212,6 +212,7 @@ public class GameBoardActivity extends AppCompatActivity {
         public void run() {
             Cloud cloud = new Cloud();
             cloud.loadFromCloud(view,player1Name,player2Name,player1Score, player2Score,rounds,captureOptions,capture,thisPlayer);
+            isEndGame();
         }
     }
 }

@@ -437,7 +437,7 @@ public class GameBoardView extends View {
                 String email = (String) snapshot.child("player1").child("email").getValue();
                 board.addPlayer(name, email);
             } else if (board.getNumPlayers() >= 1) {
-                int score = Integer.parseInt((String) Objects.requireNonNull(snapshot.child("player1").child("score").getValue()));
+                int score = Integer.parseInt(Objects.requireNonNull(snapshot.child("player1").child("score").getValue()).toString());
                 board.setPlayer1Score(score);
             }
         }
@@ -449,7 +449,7 @@ public class GameBoardView extends View {
                 // load player 2 data
                 board.addPlayer(name, email);
             } else if (board.getNumPlayers() >= 2) {
-                int score = Integer.parseInt((String) Objects.requireNonNull(snapshot.child("player2").child("score").getValue()));
+                int score = Integer.parseInt(Objects.requireNonNull(Objects.requireNonNull(snapshot.child("player2").child("score").getValue()).toString()));
                 board.setPlayer2Score(score);
             }
         }
@@ -457,7 +457,6 @@ public class GameBoardView extends View {
         // load game data
         board.setRounds(Integer.parseInt(Objects.requireNonNull(gameData.child("currRound").getValue()).toString()));
         board.setPlayer(Integer.parseInt(Objects.requireNonNull(gameData.child("currPlayer").getValue()).toString()));
-
 
         // load collectables
         for (Object c : gameData.child("collectables").getChildren()) {

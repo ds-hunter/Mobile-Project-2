@@ -186,7 +186,7 @@ public class GameBoard {
             players.get(players.size() - 1 ).setEmail(email);
         }
 
-        public void setPlayer ( int id){
+        public void setPlayer (int id){
             currentPlayer = players.get(id);
         }
 
