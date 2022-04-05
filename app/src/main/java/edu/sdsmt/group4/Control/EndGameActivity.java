@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import edu.sdsmt.group4.Model.Cloud;
 import edu.sdsmt.group4.R;
 
 public class EndGameActivity extends AppCompatActivity {
@@ -34,11 +36,15 @@ public class EndGameActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Cloud cloud = new Cloud();
+        cloud.reset();
         finish();
     }
 
     public void onReturnClick(View view)
     {
+        Cloud cloud = new Cloud();
+        cloud.reset();
         finish();
     }
 }
