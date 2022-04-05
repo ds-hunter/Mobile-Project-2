@@ -71,7 +71,7 @@ public class GameBoardActivity extends AppCompatActivity {
         // Set the waiting for player timer
         view = this.findViewById(R.id.gameBoardView);
         if (view.getNumPlayers() != 2) {
-            dlg = new WaitingDlg(view);
+            dlg = new WaitingDlg( view, this);
             dlg.show(getSupportFragmentManager(), "Loading");
             timer = new Timer();
             timer.schedule(new WaitForPlayerTask(), 1000, 1000);

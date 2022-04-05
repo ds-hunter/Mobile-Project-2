@@ -14,8 +14,10 @@ import edu.sdsmt.group4.View.GameBoardView;
 public class WaitingDlg extends DialogFragment {
     private GameBoardView view;
 
-    public WaitingDlg(GameBoardView view) {
+    private GameBoardActivity activity;
+    public WaitingDlg(GameBoardView view, GameBoardActivity activity) {
         this.view = view;
+        this.activity = activity;
     }
 
     @Override
@@ -33,6 +35,7 @@ public class WaitingDlg extends DialogFragment {
         // Add a cancel button
         builder.setNegativeButton(android.R.string.cancel, (dialog, id) -> {
             // UPLOAD TASK, DELETE USER FROM FIREBASE
+                activity.finish();
         });
 
         return builder.create();
