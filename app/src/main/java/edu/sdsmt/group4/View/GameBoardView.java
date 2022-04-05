@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
@@ -471,13 +472,22 @@ public class GameBoardView extends View {
             }
         }
         board.setPlayer(Integer.parseInt(Objects.requireNonNull(gameData.child("currPlayer").getValue()).toString()));
+        int collectableAmt = Integer.parseInt(Objects.requireNonNull(gameData.child("collectableAmt").getValue()).toString());
 
         // load collectables
-        for (Object c : gameData.child("collectables").getChildren()) {
+        board.clearCollectables();
+        for (int i = 0; i <= collectableAmt; i++) {
+            DataSnapshot c = gameData.child("collectables").child("c" + i);
             // load collectable data
+            float relX = Float.parseFloat(Objects.requireNonNull(c.child("relx").getValue()).toString());
+            float relY = Float.parseFloat(Objects.requireNonNull(c.child("rely").getValue()).toString());
+            int id = Integer.parseInt(Objects.requireNonNull(c.getKey()).substring(1));
+            Log.d("Creating Collectable", id + ": " + relX + ", " + relY);
+            board.addCollectable(id, relX, relY, false);
         }
 
         updateGUI(player1Name,player2Name,p1Score,p2Score,rounds,captureOptions,capture,thisPlayer);
+        invalidate();
     }
 
     public void saveJSON(DatabaseReference snapshot) {
