@@ -26,6 +26,7 @@ public class Player {
         return this.score;
     }
 
+    public void setScore(int score) { this.score = score; }
     public void setEmail(String e){email = e;}
     public String getEmail(){return email;}
     public void incScore(int add) {

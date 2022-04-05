@@ -20,14 +20,25 @@ public class Cloud {
     private final static FirebaseDatabase database = FirebaseDatabase.getInstance();
     private static DatabaseReference matches = database.getReference("matches");
 
-    public void loadFromCloud(final GameBoardView view, TextView player1Name, TextView player2Name, TextView rounds, Button captureOptions, Button capture, String thisPlayer) {
+    public void loadFromCloud(
+            final GameBoardView view,
+            TextView player1Name,
+            TextView player2Name,
+            TextView p1Score,
+            TextView p2Score,
+            TextView rounds,
+            Button captureOptions,
+            Button capture,
+            String thisPlayer
+    )
+    {
         DatabaseReference matchRef = matches.child("testmatchUID");
 
         // Read from the database
         matchRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                view.loadJSON(dataSnapshot, player1Name,player2Name,rounds, captureOptions,capture,thisPlayer);
+                view.loadJSON(dataSnapshot,player1Name,player2Name,p1Score, p2Score,rounds, captureOptions,capture,thisPlayer);
             }
 
             @Override

@@ -25,9 +25,11 @@ public class GameBoard {
     private int rounds;
     private int totalRound;
     private final Context context;
+    GameBoardView view;
 
     public GameBoard(Context context, GameBoardView view) {
         this.context = context;
+        this.view = view;
         for (int i = 0; i < 21; i++) {
             Collectable collectable = new Collectable(context, i, 0.2f);
             collectables.add(collectable);
@@ -40,17 +42,22 @@ public class GameBoard {
 
     public void capture (CaptureObject capture){
         ArrayList<Collectable> collected = capture.getContainedCollectables(collectables);
+        Cloud cloud = new Cloud();
         for (Collectable c : collected)
             collectables.remove(c);
+
+        Log.d("GETID", String.valueOf(currentPlayer.getId()));
         switch (currentPlayer.getId()) {
             case 0:
                 players.get(0).incScore(collected.size());
                 currentPlayer = players.get(1);
+                cloud.saveToCloud(view);
                 break;
             case 1:
                 players.get(1).incScore(collected.size());
                 currentPlayer = players.get(0);
                 rounds--;
+                cloud.saveToCloud(view);
                 break;
         }
     }
@@ -150,6 +157,18 @@ public class GameBoard {
             return String.valueOf(players.get(1).getScore());
         }
 
+        public void setPlayer1Score (int score) {
+            if (getNumPlayers() < 1)
+                return;
+            players.get(0).setScore(score);
+        }
+
+        public void setPlayer2Score (int score) {
+            if (getNumPlayers() < 2)
+                return;
+            players.get(1).setScore(score);
+        }
+
         public String getPlayer1Name () {
             if (players.size() >= 1)
                 return players.get(0).getName();
@@ -182,13 +201,13 @@ public class GameBoard {
                 snapshot.child("game/collectables/c" + i + "/rely").setValue(collectables.get(i).getRelY());
             }
             snapshot.child("game/currPlayer").setValue(currentPlayer.getId());
-            snapshot.child("game/numRounds").setValue(rounds);
-            snapshot.child("player1/score").setValue(players.get(0).getScore());
-            snapshot.child("player1/screenName").setValue(players.get(0).getName());
-            snapshot.child("player1/score").setValue(players.get(1).getScore());
-            snapshot.child("player2/screenName").setValue(players.get(1).getName());
-            snapshot.child("player1/email").setValue(players.get(0).getEmail());
-            snapshot.child("player2/email").setValue(players.get(1).getEmail());
+            snapshot.child("game/currRound").setValue(getRounds());
+            snapshot.child("player1/score").setValue(getPlayer1Score());
+            snapshot.child("player1/screenName").setValue(getPlayer1Name());
+            snapshot.child("player2/score").setValue(getPlayer2Score());
+            snapshot.child("player2/screenName").setValue(getPlayer2Name());
+            snapshot.child("player1/email").setValue(getPlayer1Email());
+            snapshot.child("player2/email").setValue(getPlayer2Email());
         }
 
     public String getPlayer2Email() {

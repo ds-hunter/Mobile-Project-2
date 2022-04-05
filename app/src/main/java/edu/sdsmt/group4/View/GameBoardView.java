@@ -373,13 +373,24 @@ public class GameBoardView extends View {
 
     public String getPlayer2Name() { return board.getPlayer2Name(); }
 
-    public void updateGUI(TextView p1, TextView p2, TextView rounds,  Button captureOptions, Button capture, String thisPlayer)
+    public void updateGUI(
+            TextView p1,
+            TextView p2,
+            TextView p1Score,
+            TextView p2Score,
+            TextView rounds,
+            Button captureOptions,
+            Button capture,
+            String thisPlayer
+    )
     {
         int red = Color.parseColor("#FF0000");
         int black = Color.parseColor("#FFFFFF");
         
         p1.setText(getPlayer1Name());
         p2.setText(getPlayer2Name());
+        p1Score.setText(getPlayer1Score());
+        p2Score.setText(getPlayer2Score());
 
         if (getNumPlayers() == 2) {
             switch (getCurrentPlayerId()) {
@@ -406,22 +417,41 @@ public class GameBoardView extends View {
 
     }
 
-    public void loadJSON(DataSnapshot snapshot, TextView player1Name, TextView player2Name, TextView rounds, Button captureOptions, Button capture, String thisPlayer) {
+    public void loadJSON(
+            DataSnapshot snapshot,
+            TextView player1Name,
+            TextView player2Name,
+            TextView p1Score,
+            TextView p2Score,
+            TextView rounds,
+            Button captureOptions,
+            Button capture,
+            String thisPlayer
+    )
+    {
         Log.d("Cloud Load", "Pulling data from firebase");
         DataSnapshot gameData = snapshot.child("game");
-        if (snapshot.hasChild("player1") && board.getNumPlayers() == 0) {
-            String name = (String) snapshot.child("player1").child("screenName").getValue();
-            String email = (String) snapshot.child("player1").child("email").getValue();
-            // load player 1 data
-            board.addPlayer(name, email);
-
+        if (snapshot.hasChild("player1")) {
+            if (board.getNumPlayers() == 0) {
+                String name = (String) snapshot.child("player1").child("screenName").getValue();
+                String email = (String) snapshot.child("player1").child("email").getValue();
+                board.addPlayer(name, email);
+            } else if (board.getNumPlayers() >= 1) {
+                int score = Integer.parseInt((String) Objects.requireNonNull(snapshot.child("player1").child("score").getValue()));
+                board.setPlayer1Score(score);
+            }
         }
-        if (snapshot.hasChild("player2") && board.getNumPlayers() == 1) {
-            // load player 2 data
-            String name = (String) snapshot.child("player2").child("screenName").getValue();
-            String email = (String) snapshot.child("player2").child("email").getValue();
-            // load player 2 data
-            board.addPlayer(name, email);
+        if (snapshot.hasChild("player2")) {
+            if (board.getNumPlayers() == 1) {
+                // load player 2 data
+                String name = (String) snapshot.child("player2").child("screenName").getValue();
+                String email = (String) snapshot.child("player2").child("email").getValue();
+                // load player 2 data
+                board.addPlayer(name, email);
+            } else if (board.getNumPlayers() >= 2) {
+                int score = Integer.parseInt((String) Objects.requireNonNull(snapshot.child("player2").child("score").getValue()));
+                board.setPlayer2Score(score);
+            }
         }
 
         // load game data
@@ -434,7 +464,7 @@ public class GameBoardView extends View {
             // load collectable data
         }
 
-        updateGUI(player1Name,player2Name,rounds, captureOptions,capture,thisPlayer );
+        updateGUI(player1Name,player2Name,p1Score,p2Score,rounds,captureOptions,capture,thisPlayer);
     }
 
     public void saveJSON(DatabaseReference snapshot) {

@@ -56,7 +56,7 @@ public class GameBoardActivity extends AppCompatActivity {
         thisPlayer = bundle.getString("THIS_PLAYER");
         Log.d("GameBoard: ", " LOADED INSTANCE STATE ");
         view.loadInstanceState(bundle);
-        view.updateGUI(player1Name,player2Name,rounds, captureOptions,capture,thisPlayer );
+        view.updateGUI(player1Name,player2Name,player1Score,player2Score,rounds,captureOptions,capture,thisPlayer);
     }
 
     @Override
@@ -152,7 +152,7 @@ public class GameBoardActivity extends AppCompatActivity {
 
     public void onCaptureClick(View v) {
         view.captureClicked();
-        view.updateGUI(player1Name,player2Name,rounds, captureOptions,capture,thisPlayer );
+        view.updateGUI(player1Name,player2Name,player1Score,player2Score,rounds,captureOptions,capture,thisPlayer);
         Cloud cloud = new Cloud();
         cloud.saveToCloud(view);
         isEndGame();
@@ -211,7 +211,7 @@ public class GameBoardActivity extends AppCompatActivity {
         @Override
         public void run() {
             Cloud cloud = new Cloud();
-            cloud.loadFromCloud(view,player1Name,player2Name,rounds, captureOptions,capture,thisPlayer);
+            cloud.loadFromCloud(view,player1Name,player2Name,player1Score, player2Score,rounds,captureOptions,capture,thisPlayer);
         }
     }
 }
