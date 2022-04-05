@@ -26,6 +26,7 @@ public class MonitorCloud {
     private String EMAIL;
     private String PASSWORD;
     private String TAG;
+    private String ROUNDS;
     // Firebase instance variables
     private final FirebaseAuth userAuth = FirebaseAuth.getInstance();
     private FirebaseUser firebaseUser;
@@ -53,11 +54,12 @@ public class MonitorCloud {
 
     private MonitorCloud() {}
 
-    public void setUserDetails(String user, String email, String passwd, String player){
+    public void setUserDetails(String user, String email, String passwd, String player, String rounds){
         USER = user;
         EMAIL = email;
         PASSWORD = passwd;
         TAG = player;
+        ROUNDS = rounds;
     }
 
     public void createUser() {
@@ -77,7 +79,8 @@ public class MonitorCloud {
                     //result.put("/matches/testmatchUID/"+ TAG +"/screenName", USER);
                     userRef.updateChildren(result);
                 }else if(task.getException().getMessage().equals("The email address is already in use by another account.")){
-                    signIn();
+                    //signIn();
+                    authenticated = false;
                 } else {
                     Log.d(TAG, "Problem: " + task.getException().getMessage());
                     authenticated = false;
@@ -104,6 +107,11 @@ public class MonitorCloud {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
                     authenticated = true;
+                    matchRef.child("testmatchUID/"+TAG+"/score").setValue(0);
+                    matchRef.child("testmatchUID/"+TAG+"/screenName").setValue(TAG);
+                    if(TAG == "player1"){
+                        matchRef.child("testmatchUID/game/numRound").setValue(ROUNDS);
+                    }
                 } else {
                     Log.w(TAG, "signInWithEmail:failed", task.getException());
                     authenticated = false;

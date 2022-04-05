@@ -134,7 +134,8 @@ public class WelcomeActivity extends AppCompatActivity {
         monitor.setUserDetails(" ",
                 user.getText().toString(),
                 passwordBox.getText().toString(),
-                "player1");
+                "player1",
+                rounds.getText().toString());
 
         monitor.signIn();
         monitor.startAuthListening();
@@ -169,7 +170,7 @@ public class WelcomeActivity extends AppCompatActivity {
     public void onAccountClick(View view){
         Intent intent = new Intent(this, NewUserActivity.class);
         startActivity(intent);
-        logIn();
+        //logIn();
     }
 
     public void onHowToPlay(View view) {
