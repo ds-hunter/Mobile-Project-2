@@ -8,6 +8,8 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import edu.sdsmt.group4.Model.Cloud;
 import edu.sdsmt.group4.R;
 import edu.sdsmt.group4.View.GameBoardView;
 
@@ -35,6 +37,8 @@ public class WaitingDlg extends DialogFragment {
         // Add a cancel button
         builder.setNegativeButton(android.R.string.cancel, (dialog, id) -> {
             // UPLOAD TASK, DELETE USER FROM FIREBASE
+            Cloud cloud = new Cloud();
+            cloud.reset();
                 activity.finish();
         });
 
