@@ -160,7 +160,9 @@ public class MonitorCloud {
                 if(!(TAG.equals(""))) {
                     String UID = firebaseUser.getUid();
                     USER = dataSnapshot.child(UID + "/screenName").getValue().toString();
+                    EMAIL = dataSnapshot.child(UID + "/email").getValue().toString();
                     matchRef.child("testmatchUID/" + TAG + "/screenName").setValue(USER);
+                    matchRef.child("testmatchUID/" + TAG + "/email").setValue(EMAIL);
                     if(wAct != null){
                         wAct.logIn(isAuthenticated());
                     }else{

@@ -154,8 +154,9 @@ public class GameBoard {
             return players.get(1).getName();
         }
 
-        public void addPlayer ( String screenName ) {
-            players.add(new Player(screenName, players.size()));
+        public void addPlayer ( String screenName, String email ) {
+            players.add(new Player(screenName,  players.size()));
+            players.get(players.size() - 1 ).setEmail(email);
         }
 
         public void setPlayer ( int id){
@@ -178,15 +179,17 @@ public class GameBoard {
             snapshot.child("player1/screenName").setValue(players.get(0).getName());
             snapshot.child("player1/score").setValue(players.get(1).getScore());
             snapshot.child("player2/screenName").setValue(players.get(1).getName());
+            snapshot.child("player1/email").setValue(players.get(0).getEmail());
+            snapshot.child("player2/email").setValue(players.get(1).getEmail());
         }
 
     public String getPlayer2Email() {
-        return "testPlaye2r@gmail.com";
-        // return players.get(1).getEmail();
+       // return "testPlaye2r@gmail.com";
+         return players.get(1).getEmail();
     }
 
     public String getPlayer1Email() {
-        return "testPlayer@gmail.com";
-        //return players.get(0).getEmail();
+        //return "testPlayer@gmail.com";
+        return players.get(0).getEmail();
     }
 }

@@ -94,7 +94,6 @@ public class GameBoardActivity extends AppCompatActivity {
         capture = findViewById(R.id.captureButton);
         captureOptions = findViewById(R.id.optionsButton);
         capture.setEnabled(false);
-        //load from cloud here?
         rounds = findViewById(R.id.rounds);
         player1Name.setText(R.string.Name1);
         player2Score.setText("0");

@@ -407,18 +407,23 @@ public class GameBoardView extends View {
         DataSnapshot gameData = snapshot.child("game");
         if (snapshot.hasChild("player1") && board.getNumPlayers() == 0) {
             String name = (String) snapshot.child("player1").child("screenName").getValue();
+            String email = (String) snapshot.child("player1").child("email").getValue();
             // load player 1 data
-            board.addPlayer(name);
+            board.addPlayer(name, email);
+
         }
         if (snapshot.hasChild("player2") && board.getNumPlayers() == 1) {
             // load player 2 data
             String name = (String) snapshot.child("player2").child("screenName").getValue();
-            board.addPlayer(name);
+            String email = (String) snapshot.child("player2").child("email").getValue();
+            // load player 2 data
+            board.addPlayer(name, email);
         }
 
         // load game data
         board.setRounds(Integer.parseInt(Objects.requireNonNull(gameData.child("currRound").getValue()).toString()));
         board.setPlayer(Integer.parseInt(Objects.requireNonNull(gameData.child("currPlayer").getValue()).toString()));
+
 
         // load collectables
         for (Object c : gameData.child("collectables").getChildren()) {
