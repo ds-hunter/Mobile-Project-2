@@ -29,6 +29,7 @@ import edu.sdsmt.group4.Model.Collectable;
 import edu.sdsmt.group4.Model.GameBoard;
 import edu.sdsmt.group4.Model.LineCapture;
 import edu.sdsmt.group4.Model.RectangleCapture;
+import edu.sdsmt.group4.R;
 
 public class GameBoardView extends View {
     private static final String CAPTURE_TYPE = "gameBoard.CaptureType" ;
@@ -376,11 +377,13 @@ public class GameBoardView extends View {
     {
         int red = Color.parseColor("#FF0000");
         int black = Color.parseColor("#FFFFFF");
+        
+        p1.setText(getPlayer1Name());
+        p2.setText(getPlayer2Name());
 
         if (getNumPlayers() == 2) {
             switch (getCurrentPlayerId()) {
                 case 0:
-
                     p1.setTextColor(red);
                     p2.setTextColor(black);
                     captureOptions.setEnabled(getPlayer1Email().equals(thisPlayer));
@@ -403,7 +406,7 @@ public class GameBoardView extends View {
 
     }
 
-    public void loadJSON(DataSnapshot snapshot) {
+    public void loadJSON(DataSnapshot snapshot, TextView player1Name, TextView player2Name, TextView rounds, Button captureOptions, Button capture, String thisPlayer) {
         Log.d("Cloud Load", "Pulling data from firebase");
         DataSnapshot gameData = snapshot.child("game");
         if (snapshot.hasChild("player1") && board.getNumPlayers() == 0) {
@@ -425,6 +428,8 @@ public class GameBoardView extends View {
         for (Object c : gameData.child("collectables").getChildren()) {
             // load collectable data
         }
+
+        updateGUI(player1Name,player2Name,rounds, captureOptions,capture,thisPlayer );
     }
 
     public void saveJSON(DatabaseReference snapshot) {
