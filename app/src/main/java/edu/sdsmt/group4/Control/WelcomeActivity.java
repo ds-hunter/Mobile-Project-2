@@ -102,15 +102,11 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     public void onStart(View view) {
-
-        Intent intent = new Intent(this, GameBoardActivity.class);
-
         final MonitorCloud monitor = MonitorCloud.INSTANCE;
 
          //This is old stuff but we will leave it for no
 
        /* intent.putExtra(PLAYER2NAME_MESSAGE, "TODO");*/
-        intent.putExtra(ROUNDS_MESSAGE, rounds.getText().toString());
 
 
         if(rememberBox.isChecked())
@@ -128,20 +124,18 @@ public class WelcomeActivity extends AppCompatActivity {
                 passwordBox.getText().toString(),
                 "player1",
                 rounds.getText().toString());
-        intent.putExtra(THIS_PLAYER, user.getText().toString());
         monitor.signIn();
         monitor.startAuthListening();
-        if(monitor.isAuthenticated())
-            startActivity(intent);
     }
 
     public void logIn(boolean authenticated){
         if(!authenticated){
             //TODO: create an error message explaining why sign-in failed
         }else {
-            /*
-            WaitingDlg dlg = new WaitingDlg();
-            dlg.show(getSupportFragmentManager(), "Loading");*/
+            Intent intent = new Intent(this, GameBoardActivity.class);
+            intent.putExtra(ROUNDS_MESSAGE, rounds.getText().toString());
+            intent.putExtra(THIS_PLAYER, user.getText().toString());
+            startActivity(intent);
         }
     }
     @Override

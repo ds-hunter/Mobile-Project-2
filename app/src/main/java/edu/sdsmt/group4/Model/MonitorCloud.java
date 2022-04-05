@@ -3,6 +3,7 @@ package edu.sdsmt.group4.Model;
 import android.app.Activity;
 import android.app.Dialog;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -11,8 +12,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
@@ -105,22 +109,14 @@ public class MonitorCloud {
             @Override
             public void onComplete(@NonNull Task task) {
                 if (task.isSuccessful()) {
+                    firebaseUser = userAuth.getCurrentUser();
+                    setTag();
+                    setPlayerName();
                     Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
                     authenticated = true;
-                    matchRef.child("testmatchUID/"+TAG+"/score").setValue(0);
-                    matchRef.child("testmatchUID/"+TAG+"/screenName").setValue(TAG);
-                    if(TAG == "player1"){
-                        matchRef.child("testmatchUID/game/numRound").setValue(ROUNDS);
-                    }
                 } else {
                     Log.w(TAG, "signInWithEmail:failed", task.getException());
                     authenticated = false;
-                }
-
-                if(wAct != null){
-                    wAct.logIn(isAuthenticated());
-                }else{
-                    nuAct.logIn(isAuthenticated());
                 }
             }
         });
@@ -154,6 +150,55 @@ public class MonitorCloud {
             return "";
         else
             return firebaseUser.getUid();
+    }
+
+    public void setPlayerName()
+    {
+        DatabaseReference myRef = userRef;
+
+        // Read from the database
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(!(TAG.equals(""))) {
+                    String UID = firebaseUser.getUid();
+                    USER = dataSnapshot.child(UID + "/screenName").getValue().toString();
+                    matchRef.child("testmatchUID/" + TAG + "/screenName").setValue(USER);
+                    if(wAct != null){
+                        wAct.logIn(isAuthenticated());
+                    }else{
+                        nuAct.logIn(isAuthenticated());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) { }
+        });
+    }
+
+    private void setTag(){
+        DatabaseReference tempRef = matchRef.child("testmatchUID");
+        tempRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (!snapshot.child("player1").exists()) {
+                    TAG = "player1";
+                }else if (!snapshot.child("player2").exists()){
+                    TAG = "player2";
+                }else{
+                    TAG = "";
+                }
+                if(!(TAG.equals(""))) {
+                    matchRef.child("testmatchUID/" + TAG + "/score").setValue(0);
+                    if (TAG == "player1") {
+                        matchRef.child("testmatchUID/game/numRound").setValue(ROUNDS);
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {}
+        });
     }
 
 }
