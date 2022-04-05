@@ -19,11 +19,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.25" />
 
-    <com.google.android.material.textfield.TextInputEditText
+    <EditText
         android:id="@+id/userNameInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/emailInputHint"
+        android:inputType="textEmailAddress"
         android:minHeight="48dp"
         android:textColorHint="#757575"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,7 +33,7 @@
         app:layout_constraintTop_toBottomOf="@+id/WelcomeTextView"
         app:layout_constraintVertical_bias="0.25" />
 
-    <com.google.android.material.textfield.TextInputEditText
+    <EditText
         android:id="@+id/passwordInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -45,7 +46,7 @@
         app:layout_constraintTop_toBottomOf="@+id/userNameInput" />
 
 
-    <com.google.android.material.textfield.TextInputEditText
+    <EditText
         android:id="@+id/roundsInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

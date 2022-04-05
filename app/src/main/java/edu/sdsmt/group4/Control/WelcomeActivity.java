@@ -108,10 +108,10 @@ public class WelcomeActivity extends AppCompatActivity {
 
         final MonitorCloud monitor = MonitorCloud.INSTANCE;
 
-         //This is old stuff but we will leave it for now
-        /*intent.putExtra(PLAYER1NAME_MESSAGE, "TODO");
-        intent.putExtra(PLAYER2NAME_MESSAGE, "TODO");
-        intent.putExtra(ROUNDS_MESSAGE, rounds.getText().toString());*/
+         //This is old stuff but we will leave it for no
+
+       /* intent.putExtra(PLAYER2NAME_MESSAGE, "TODO");*/
+        intent.putExtra(ROUNDS_MESSAGE, rounds.getText().toString());
 
         // We will still need to switch activities, but instead of putExtra we will
         // be pushing to the cloud.
@@ -136,10 +136,10 @@ public class WelcomeActivity extends AppCompatActivity {
                 passwordBox.getText().toString(),
                 "player1",
                 rounds.getText().toString());
-
+        intent.putExtra(THIS_PLAYER, user.getText().toString());
         monitor.signIn();
         monitor.startAuthListening();
-       // startActivity(intent);
+        startActivity(intent);
     }
 
     public void logIn(boolean authenticated){

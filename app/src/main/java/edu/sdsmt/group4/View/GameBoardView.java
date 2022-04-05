@@ -53,6 +53,13 @@ public class GameBoardView extends View {
         return captureType != -1;
     }
 
+    public String getPlayer2Email() {
+        return board.getPlayer2Email();
+    }
+    public String getPlayer1Email() {
+        return board.getPlayer1Email();
+    }
+
     private static class Touch {
         public int id = -1;
         public float x = 0;

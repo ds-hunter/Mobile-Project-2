@@ -39,12 +39,14 @@ public class GameBoardActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle bundle) {
         super.onSaveInstanceState(bundle);
+        bundle.putString("THIS_PLAYER",thisPlayer );
         view.saveInstanceState(bundle);
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle bundle) {
         super.onRestoreInstanceState(bundle);
+        thisPlayer = bundle.getString("THIS_PLAYER");
         Log.d("GameBoard: ", " LOADED INSTANCE STATE ");
         view.loadInstanceState(bundle);
         updateGUI();
@@ -52,19 +54,19 @@ public class GameBoardActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (view.getNumPlayers() != 2) {
+      /*  if (view.getNumPlayers() != 2) {
             WaitingDlg dlg = new WaitingDlg(view);
             dlg.show(getSupportFragmentManager(), "Loading");
         }
-
+          */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_board);
         view = this.findViewById(R.id.gameBoardView);
 
         //get player names and no of rounds from prev
         Intent intent = getIntent();
-        String name1 = intent.getStringExtra(WelcomeActivity.PLAYER1NAME_MESSAGE);
-        String name2 = intent.getStringExtra(WelcomeActivity.PLAYER2NAME_MESSAGE);
+        String name1 ="";
+        String name2 = "";
         thisPlayer = intent.getStringExtra(WelcomeActivity.THIS_PLAYER);
         String r = intent.getStringExtra(WelcomeActivity.ROUNDS_MESSAGE);
 
@@ -153,15 +155,15 @@ public class GameBoardActivity extends AppCompatActivity {
 
                 player1Name.setTextColor(red);
                 player2Name.setTextColor(black);
-                captureOptions.setEnabled(player1Name.getText().toString().equals(thisPlayer));
-                capture.setEnabled(player1Name.getText().toString().equals(thisPlayer));
+                captureOptions.setEnabled(view.getPlayer1Email().equals(thisPlayer));
+                capture.setEnabled(view.getPlayer1Email().equals(thisPlayer));
                 break;
             case 1:
                 Log.i("Inside 1", String.valueOf(view.getCurrentPlayerId()));
                 player2Name.setTextColor(red);
                 player1Name.setTextColor(black);
-                captureOptions.setEnabled(player2Name.getText().toString().equals(thisPlayer));
-                capture.setEnabled(player2Name.getText().toString().equals(thisPlayer));
+                captureOptions.setEnabled(view.getPlayer2Email().equals(thisPlayer));
+                capture.setEnabled(view.getPlayer2Email().equals(thisPlayer));
                 break;
         }
 
@@ -172,7 +174,7 @@ public class GameBoardActivity extends AppCompatActivity {
     }
 
     public void onCaptureClick(View v) {
-        //view.captureClicked();
+        view.captureClicked();
         updateGUI();
         isEndGame();
     }

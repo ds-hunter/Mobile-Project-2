@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class GameBoard {
     private static final String PLAYER_NAMES ="GameBoard.playerNames" ;
     private static final String PLAYER_SCORES ="GameBoard.playerScores" ;
+    private static final String PLAYER_EMAILS ="GameBoard.playerEmails" ;
     private static final String CURRENT_PLAYER_ID = "GameBoard.currentPlayerScore";
     private final ArrayList<Collectable> collectables = new ArrayList<>();
     private Player currentPlayer;
@@ -59,6 +60,7 @@ public class GameBoard {
 
         int [] playerScores = new int[players.size()];
         String [] playerNames = new String[players.size()];
+        String []playerEmails = new String[players.size()];
         for (int i = 0; i < collectables.size(); i++) {
             Collectable collectable = collectables.get(i);
             relLocations[i * 2] = collectable.getRelX();
@@ -70,12 +72,14 @@ public class GameBoard {
         for(int i = 0; i < players.size(); i ++) {
             playerNames[i] = players.get(i).getName();
             playerScores[i] = players.get(i).getScore();
+            playerEmails[i] = players.get(i).getEmail();
         }
         bundle.putFloatArray(REL_LOCATIONS, relLocations);
         bundle.putFloatArray(LOCATIONS, locations);
         bundle.putIntArray(IDS,  ids);
         bundle.putIntArray(PLAYER_SCORES, playerScores);
         bundle.putStringArray(PLAYER_NAMES, playerNames);
+        bundle.putStringArray(PLAYER_EMAILS, playerEmails);
         bundle.putInt(CURRENT_PLAYER_ID, currentPlayer.getId());
     }
 
@@ -86,7 +90,7 @@ public class GameBoard {
         String[] playerNames = bundle.getStringArray(PLAYER_NAMES);
         int[] playerScores = bundle.getIntArray(PLAYER_SCORES);
         int id = bundle.getInt(CURRENT_PLAYER_ID);
-
+        String [] playerEmails = bundle.getStringArray(PLAYER_EMAILS);
         collectables.clear();
 
         for (int i = 0; i < ids.length; i++) {
@@ -102,6 +106,7 @@ public class GameBoard {
         {
             players.add(new Player(playerNames[i], i));
             players.get(i).incScore(playerScores[i]);
+            players.get(i).setEmail(playerEmails[i]);
         }
 
         currentPlayer = new Player(players.get(id).getName(), id);
@@ -143,5 +148,15 @@ public class GameBoard {
         snapshot.child("player1/screenName").setValue(players.get(0).getName());
         snapshot.child("player1/score").setValue(players.get(1).getScore());
         snapshot.child("player2/screenName").setValue(players.get(1).getName());
+    }
+
+    public String getPlayer2Email() {
+        return "testPlaye2r@gmail.com";
+       // return players.get(1).getEmail();
+    }
+
+    public String getPlayer1Email() {
+        return "testPlayer@gmail.com";
+        //return players.get(0).getEmail();
     }
 }
