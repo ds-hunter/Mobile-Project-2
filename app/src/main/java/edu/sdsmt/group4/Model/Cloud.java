@@ -6,6 +6,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,6 +22,23 @@ public class Cloud {
     private final static FirebaseDatabase database = FirebaseDatabase.getInstance();
     private static DatabaseReference matches = database.getReference("matches");
 
+    public boolean checkForEndGame() {
+        DatabaseReference roundsRef = matches.child("testMatchUID").child("game").child("currRound");
+
+        roundsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        return false;
+    }
     public void loadFromCloud(
             final GameBoardView view,
             TextView player1Name,

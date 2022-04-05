@@ -431,6 +431,11 @@ public class GameBoardView extends View {
     {
         Log.d("Cloud Load", "Pulling data from firebase");
         DataSnapshot gameData = snapshot.child("game");
+
+        // load game data
+        board.setRounds(Integer.parseInt(Objects.requireNonNull(gameData.child("currRound").getValue()).toString()));
+
+        // load player data
         if (snapshot.hasChild("player1")) {
             if (board.getNumPlayers() == 0) {
                 String name = (String) snapshot.child("player1").child("screenName").getValue();
@@ -439,6 +444,12 @@ public class GameBoardView extends View {
             } else if (board.getNumPlayers() >= 1) {
                 int score = Integer.parseInt(Objects.requireNonNull(snapshot.child("player1").child("score").getValue()).toString());
                 board.setPlayer1Score(score);
+            }
+        } else {
+            if (board.getNumPlayers() == 2) {
+                Log.d("TEST", String.valueOf(board.getNumPlayers()));
+                // player 1 has left the game
+                board.setRounds(0);
             }
         }
         if (snapshot.hasChild("player2")) {
@@ -452,10 +463,13 @@ public class GameBoardView extends View {
                 int score = Integer.parseInt(Objects.requireNonNull(Objects.requireNonNull(snapshot.child("player2").child("score").getValue()).toString()));
                 board.setPlayer2Score(score);
             }
+        } else {
+            if (board.getNumPlayers() == 2) {
+                Log.d("TEST", String.valueOf(board.getNumPlayers()));
+                // player 2 has left the game
+                board.setRounds(0);
+            }
         }
-
-        // load game data
-        board.setRounds(Integer.parseInt(Objects.requireNonNull(gameData.child("currRound").getValue()).toString()));
         board.setPlayer(Integer.parseInt(Objects.requireNonNull(gameData.child("currPlayer").getValue()).toString()));
 
         // load collectables

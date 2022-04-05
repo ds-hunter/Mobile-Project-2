@@ -126,7 +126,8 @@ public class GameBoardActivity extends AppCompatActivity {
 
 
     public void endGame()
-    {            String winner = "WINNER\n";
+    {
+        String winner = "WINNER\n";
         int player1Score = Integer.parseInt(view.getPlayer1Score());
         int player2Score = Integer.parseInt(view.getPlayer2Score());
 
@@ -147,7 +148,8 @@ public class GameBoardActivity extends AppCompatActivity {
         intent.putExtra(EndGameActivity.WINNER_MESSAGE, winner);
         loadTimer.cancel();
         startActivity(intent);
-        finish();}
+        finish();
+    }
 
 
     public void onCaptureClick(View v) {
