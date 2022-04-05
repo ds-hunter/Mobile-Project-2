@@ -37,22 +37,10 @@ public class Cloud {
         });
     }
 
-    public void saveToCloud(String name, GameBoardView view) {
-        name = name.trim();
-        if(name.length() == 0) {
-            Toast.makeText(view.getContext(), R.string.saving_fail, Toast.LENGTH_SHORT).show();
-        }
-        String key =matches.push().getKey();
-        matches = matches.child(key);
-        matches.child("name").setValue(name);
+    public void saveToCloud(GameBoardView view) {
+        DatabaseReference myRef = matches.child("testmatchUID");
 
-        view.saveJSON(matches);
+        view.saveJSON(myRef);
 
-        matches.child("name").setValue(name, new DatabaseReference.CompletionListener() {
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                if(databaseError != null) {
-                    Toast.makeText(view.getContext(), R.string.saving_fail, Toast.LENGTH_SHORT).show();
-                }
-            }});
     }
 }

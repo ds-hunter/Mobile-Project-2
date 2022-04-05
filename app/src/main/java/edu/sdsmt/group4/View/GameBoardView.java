@@ -24,6 +24,7 @@ import edu.sdsmt.group4.Control.GameBoardActivity;
 import edu.sdsmt.group4.Control.WaitingDlg;
 import edu.sdsmt.group4.Model.CaptureObject;
 import edu.sdsmt.group4.Model.CircleCapture;
+import edu.sdsmt.group4.Model.Cloud;
 import edu.sdsmt.group4.Model.Collectable;
 import edu.sdsmt.group4.Model.GameBoard;
 import edu.sdsmt.group4.Model.LineCapture;

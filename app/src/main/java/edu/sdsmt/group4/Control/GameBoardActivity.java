@@ -155,6 +155,8 @@ public class GameBoardActivity extends AppCompatActivity {
     public void onCaptureClick(View v) {
         view.captureClicked();
         view.updateGUI(player1Name,player2Name,rounds, captureOptions,capture,thisPlayer );
+        Cloud cloud = new Cloud();
+        cloud.saveToCloud(view);
         isEndGame();
     }
 

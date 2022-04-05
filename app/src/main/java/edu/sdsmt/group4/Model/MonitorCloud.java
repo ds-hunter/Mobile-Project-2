@@ -27,6 +27,8 @@ public class MonitorCloud {
     //public final static MonitorCloud INSTANCE = new MonitorCloud();
 
     private String USER;
+    private String TEMPUSER1;
+    private String TEMPUSER2;
     private String EMAIL;
     private String PASSWORD;
     private String TAG;
@@ -43,26 +45,28 @@ public class MonitorCloud {
     private WelcomeActivity wAct;
     private NewUserActivity nuAct;
 
-    public boolean isAuthenticated(){
+    public boolean isAuthenticated() {
 
         return authenticated;
     }
 
-    public void setWelcome(WelcomeActivity welcome){
+    public void setWelcome(WelcomeActivity welcome) {
         wAct = welcome;
     }
 
-    public void setNewUser(NewUserActivity newUser){
+    public void setNewUser(NewUserActivity newUser) {
         nuAct = newUser;
     }
 
-    private MonitorCloud() {}
+    private MonitorCloud() {
+    }
 
-    public void setUserDetails(String user, String email, String passwd, int rounds){
+    public void setUserDetails(String user, String email, String passwd, int rounds) {
         USER = user;
         EMAIL = email;
         PASSWORD = passwd;
         ROUNDS = rounds;
+        TAG = "";
     }
 
     public void createUser() {
@@ -74,12 +78,12 @@ public class MonitorCloud {
                     Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
                     firebaseUser = userAuth.getCurrentUser();
                     HashMap<String, Object> result = new HashMap<>();
-                    result.put("/screenName/"+USER, true);
-                    result.put("/"+firebaseUser.getUid()+"/screenName", USER);
-                    result.put("/"+firebaseUser.getUid()+"/password", PASSWORD);
-                    result.put("/"+firebaseUser.getUid()+"/email", EMAIL);
+                    result.put("/screenName/" + USER, true);
+                    result.put("/" + firebaseUser.getUid() + "/screenName", USER);
+                    result.put("/" + firebaseUser.getUid() + "/password", PASSWORD);
+                    result.put("/" + firebaseUser.getUid() + "/email", EMAIL);
                     userRef.updateChildren(result);
-                }else if(task.getException().getMessage().equals("The email address is already in use by another account.")){
+                } else if (task.getException().getMessage().equals("The email address is already in use by another account.")) {
                     //signIn();
                     authenticated = false;
                 } else {
@@ -89,9 +93,9 @@ public class MonitorCloud {
                     firebaseUser = userAuth.getCurrentUser();
                 }
 
-                if(wAct != null){
+                if (wAct != null) {
                     wAct.logIn(isAuthenticated());
-                }else{
+                } else {
                     nuAct.logIn(isAuthenticated());
                 }
             }
@@ -108,7 +112,6 @@ public class MonitorCloud {
                 if (task.isSuccessful()) {
                     firebaseUser = userAuth.getCurrentUser();
                     setTag();
-                    setPlayerName();
                     Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
                     authenticated = true;
                 } else {
@@ -125,11 +128,11 @@ public class MonitorCloud {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 firebaseUser = firebaseAuth.getCurrentUser();
-                if ( firebaseUser != null) {
+                if (firebaseUser != null) {
 
                     // User is signed in
                     authenticated = true;
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" +  firebaseUser.getUid());
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + firebaseUser.getUid());
                 } else {
 
                     // User is signed out
@@ -141,30 +144,84 @@ public class MonitorCloud {
 
     }
 
-    public String getUserUid(){
+    public String getUserUid() {
         //stop people from getting the Uid if not logged in
-        if(firebaseUser == null)
+        if (firebaseUser == null)
             return "";
         else
             return firebaseUser.getUid();
     }
 
-    public void setPlayerName()
-    {
+    public void setPlayerName() {
         DatabaseReference myRef = userRef;
 
         // Read from the database
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(!(TAG.equals(""))) {
+                if (!(TAG.equals(""))) {
                     String UID = firebaseUser.getUid();
                     USER = dataSnapshot.child(UID + "/screenName").getValue().toString();
                     matchRef.child("testmatchUID/" + TAG + "/screenName").setValue(USER);
-                    if(wAct != null){
+                    if (wAct != null) {
                         wAct.logIn(isAuthenticated());
-                    }else{
+                    } else {
                         nuAct.logIn(isAuthenticated());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+            }
+        });
+    }
+
+    private void setTag() {
+        DatabaseReference tempRef = matchRef.child("testmatchUID");
+        tempRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (!snapshot.child("player1").exists()) {
+                    TAG = "player1";
+                } else if (!snapshot.child("player2").exists()) {
+                    TAG = "player2";
+                } else {
+                    TEMPUSER1 = snapshot.child("player1/screenName").getValue().toString();
+                    TEMPUSER2 = snapshot.child("player2/screenName").getValue().toString();
+                    checkIfIsPlayer();
+                }
+                if (!(TAG.equals(""))) {
+                    matchRef.child("testmatchUID/" + TAG + "/score").setValue(0);
+                    if (TAG == "player1") {
+                        matchRef.child("testmatchUID/game/numRounds").setValue(ROUNDS);
+                    }
+                    setPlayerName();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+            }
+        });
+    }
+
+    public void checkIfIsPlayer(){
+        DatabaseReference myRef = userRef;
+
+        // Read from the database
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if ((TAG.equals(""))) {
+                    String UID = firebaseUser.getUid();
+                    USER = dataSnapshot.child(UID + "/screenName").getValue().toString();
+                    if(USER.equals(TEMPUSER1) || USER.equals(TEMPUSER2)) {
+                        if (wAct != null) {
+                            wAct.logIn(isAuthenticated());
+                        } else {
+                            nuAct.logIn(isAuthenticated());
+                        }
                     }
                 }
             }
@@ -174,28 +231,7 @@ public class MonitorCloud {
         });
     }
 
-    private void setTag(){
-        DatabaseReference tempRef = matchRef.child("testmatchUID");
-        tempRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                if (!snapshot.child("player1").exists()) {
-                    TAG = "player1";
-                }else if (!snapshot.child("player2").exists()){
-                    TAG = "player2";
-                }else{
-                    TAG = "";
-                }
-                if(!(TAG.equals(""))) {
-                    matchRef.child("testmatchUID/" + TAG + "/score").setValue(0);
-                    if (TAG == "player1") {
-                        matchRef.child("testmatchUID/game/numRound").setValue(ROUNDS);
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError error) {}
-        });
-    }
+
+
 
 }
