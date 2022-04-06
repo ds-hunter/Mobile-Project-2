@@ -18,7 +18,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -40,9 +43,10 @@ public class GameBoardActivity extends AppCompatActivity {
     private ActivityResultLauncher<Intent> captureResultLauncher;
     private String thisPlayer;
     private WaitingDlg dlg;
+    private DatabaseReference ref;
     Timer timer;
     Timer loadTimer;
-
+    Cloud cloud;
     @Override
     protected void onSaveInstanceState(@NonNull Bundle bundle) {
         super.onSaveInstanceState(bundle);
@@ -66,8 +70,11 @@ public class GameBoardActivity extends AppCompatActivity {
 
         // Set the main load timer
         loadTimer = new Timer();
-        loadTimer.schedule(new LoadTask(), 3000, 3000);
+        loadTimer.schedule(new LoadTask(), 1000, 1000);
 
+
+        cloud = new Cloud();
+        ref = cloud.getReference();
         // Set the waiting for player timer
         view = this.findViewById(R.id.gameBoardView);
         if (view.getNumPlayers() != 2) {
@@ -119,7 +126,6 @@ public class GameBoardActivity extends AppCompatActivity {
 
     private void isEndGame() {
         if(view.isEndGame()) {
-            //send is endGame to cloud?
              endGame();
         }
     }
@@ -127,6 +133,7 @@ public class GameBoardActivity extends AppCompatActivity {
 
     public void endGame()
     {
+        cloud.setEndGame();
         String winner = "WINNER\n";
         int player1Score = Integer.parseInt(view.getPlayer1Score());
         int player2Score = Integer.parseInt(view.getPlayer2Score());
@@ -155,7 +162,7 @@ public class GameBoardActivity extends AppCompatActivity {
     public void onCaptureClick(View v) {
         view.captureClicked();
         view.updateGUI(player1Name,player2Name,player1Score,player2Score,rounds,captureOptions,capture,thisPlayer);
-        Cloud cloud = new Cloud();
+
         cloud.saveToCloud(view);
         isEndGame();
     }
@@ -212,9 +219,27 @@ public class GameBoardActivity extends AppCompatActivity {
     class LoadTask extends TimerTask {
         @Override
         public void run() {
-            Cloud cloud = new Cloud();
-            cloud.loadFromCloud(view,player1Name,player2Name,player1Score, player2Score,rounds,captureOptions,capture,thisPlayer);
-            isEndGame();
+
+                DatabaseReference matchRef = ref.child("testmatchUID").child("game").child("endGame");
+
+                // Read from the database
+                matchRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if ((boolean) dataSnapshot.getValue()) {
+                            endGame();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+
+                    }
+                });
+
+
+                cloud.loadFromCloud(view, player1Name, player2Name, player1Score, player2Score, rounds, captureOptions, capture, thisPlayer);
+            }
+
         }
-    }
+
 }

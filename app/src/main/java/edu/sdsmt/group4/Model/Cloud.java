@@ -22,23 +22,7 @@ public class Cloud {
     private final static FirebaseDatabase database = FirebaseDatabase.getInstance();
     private static DatabaseReference matches = database.getReference("matches");
 
-    public boolean checkForEndGame() {
-        DatabaseReference roundsRef = matches.child("testMatchUID").child("game").child("currRound");
 
-        roundsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        return false;
-    }
     public void loadFromCloud(
             final GameBoardView view,
             TextView player1Name,
@@ -52,7 +36,7 @@ public class Cloud {
     )
     {
         DatabaseReference matchRef = matches.child("testmatchUID");
-
+        Log.d("inside load game", "load");
         // Read from the database
         matchRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -76,10 +60,22 @@ public class Cloud {
 
     }
 
+    public void setEndGame()
+    {
+        matches.child("testmatchUID/game/endGame").setValue(true);
+    }
+
     public void reset(){
         matches.child("testmatchUID/player1").removeValue();
         matches.child("testmatchUID/player2").removeValue();
         matches.child("testmatchUID/game/currPlayer").setValue(0);
         matches.child("testmatchUID/game/currRound").setValue("5");
+        matches.child("testmatchUID/game/endGame").setValue(false);
+
+    }
+
+
+    public DatabaseReference getReference() {
+        return matches;
     }
 }
