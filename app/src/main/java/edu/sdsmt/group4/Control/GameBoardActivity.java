@@ -44,6 +44,7 @@ public class GameBoardActivity extends AppCompatActivity {
     private String thisPlayer;
     private WaitingDlg dlg;
     private DatabaseReference ref;
+    private boolean loadBool = true;
     Timer timer;
     Timer loadTimer;
     Cloud cloud;
@@ -160,10 +161,12 @@ public class GameBoardActivity extends AppCompatActivity {
 
 
     public void onCaptureClick(View v) {
+        loadBool = false;
         view.captureClicked();
         view.updateGUI(player1Name,player2Name,player1Score,player2Score,rounds,captureOptions,capture,thisPlayer);
 
         cloud.saveToCloud(view);
+        loadBool = true;
         isEndGame();
     }
 
@@ -236,10 +239,10 @@ public class GameBoardActivity extends AppCompatActivity {
                     }
                 });
 
-
+            if(loadBool) {
                 cloud.loadFromCloud(view, player1Name, player2Name, player1Score, player2Score, rounds, captureOptions, capture, thisPlayer);
+                isEndGame();
             }
-
         }
-
+    }
 }
