@@ -198,7 +198,7 @@ public class MonitorCloud {
                 if (!(TAG.equals(""))) {
                     matchRef.child("testmatchUID/" + TAG + "/score").setValue(0);
                     if (TAG == "player1") {
-                        matchRef.child("testmatchUID/game/numRounds").setValue(ROUNDS);
+                        matchRef.child("testmatchUID/game/currRound").setValue(ROUNDS);
                     }
                     setPlayerName();
                 }

@@ -117,7 +117,7 @@ public class GameBoard {
                 players.get(i).setEmail(playerEmails[i]);
             }
 
-            // currentPlayer = new Player(players.get(id).getName(), id);
+             currentPlayer = new Player(players.get(id).getName(), id);
         }
 
         public boolean isEndGame () {

@@ -79,7 +79,7 @@ public class Cloud {
     public void reset(){
         matches.child("testmatchUID/player1").removeValue();
         matches.child("testmatchUID/player2").removeValue();
-
+        matches.child("testmatchUID/game/currPlayer").setValue(0);
         matches.child("testmatchUID/game/currRound").setValue("5");
     }
 }
