@@ -54,6 +54,7 @@ public class GameBoardView extends View {
     private CaptureObject capture;
     private float canvas_width;
     private float canvas_height;
+    private float view_width;
 
     public boolean isCaptureEnabled() {
         return captureType != -1;
@@ -176,6 +177,7 @@ public class GameBoardView extends View {
         super.onDraw(canvas);
         canvas_width = aspect * getHeight();
         canvas_height = (float)getHeight();
+        view_width = (float)getWidth();
 
         float canvasX = ((float)getWidth() - canvas_width) / 2f;
         float canvasY = 0;
@@ -430,21 +432,13 @@ public class GameBoardView extends View {
             String thisPlayer
     )
     {
-        // Check if board currently has 2 players to detect if a match is going and check for timeouts
-        if (board.getNumPlayers() == 2) {
-            if (board.getPlayer1Time() > 30) {
-                Log.d("Player Timeout", "Player 1");
-            }
-            if (board.getPlayer2Time() > 30) {
-                Log.d("Player Timeout", "Player 2");
-            }
-        }
+        Log.d("Cloud Load", "Pulling data from firebase");
+        DataSnapshot gameData = snapshot.child("game");
 
         // load game data
-        DataSnapshot gameData = snapshot.child("game");
         board.setRounds(Integer.parseInt(Objects.requireNonNull(gameData.child("currRound").getValue()).toString()));
 
-        // Load Player 1 Data
+        // load player data
         if (snapshot.hasChild("player1")) {
             if (board.getNumPlayers() == 0) {
                 String name = (String) snapshot.child("player1").child("screenName").getValue();
@@ -461,8 +455,6 @@ public class GameBoardView extends View {
                 board.setRounds(0);
             }
         }
-
-        // Load Player 2 Data
         if (snapshot.hasChild("player2")) {
             if (board.getNumPlayers() == 1) {
                 // load player 2 data
@@ -481,34 +473,21 @@ public class GameBoardView extends View {
                 board.setRounds(0);
             }
         }
-
-        // Check for changes in the current player upon update to update a players timestamp
-        int currPlayer = Integer.parseInt(Objects.requireNonNull(gameData.child("currPlayer").getValue()).toString());
-        if (board.getCurrentPlayerId() != currPlayer) {
-            if (currPlayer == 1) {
-                board.player2Update();
-            } else {
-                board.player1Update();
-            }
-        }
-        board.setPlayer(currPlayer);
-
-        // Load collectables from firebase if they exist
+        board.setPlayer(Integer.parseInt(Objects.requireNonNull(gameData.child("currPlayer").getValue()).toString()));
         int collectableAmt = Integer.parseInt(Objects.requireNonNull(gameData.child("collectableAmt").getValue()).toString());
-        if (gameData.hasChild("collectables")) {
-            board.clearCollectables();
-            for (int i = 0; i < collectableAmt; i++) {
-                DataSnapshot c = gameData.child("collectables").child("c" + i);
-                // load collectable data
-                float relX = Float.parseFloat(Objects.requireNonNull(c.child("relx").getValue()).toString());
-                float relY = Float.parseFloat(Objects.requireNonNull(c.child("rely").getValue()).toString());
-                int id = Integer.parseInt(Objects.requireNonNull(c.getKey()).substring(1));
-                //Log.d("Creating Collectable", id + ": " + relX + ", " + relY);
-                board.addCollectable(id, relX, relY, false);
-            }
+
+        // load collectables
+        board.clearCollectables();
+        for (int i = 0; i <= collectableAmt; i++) {
+            DataSnapshot c = gameData.child("collectables").child("c" + i);
+            // load collectable data
+            float relX = Float.parseFloat(Objects.requireNonNull(c.child("relx").getValue()).toString());
+            float relY = Float.parseFloat(Objects.requireNonNull(c.child("rely").getValue()).toString());
+            int id = Integer.parseInt(Objects.requireNonNull(c.getKey()).substring(1));
+            Log.d("Creating Collectable", id + ": " + relX + ", " + relY);
+            board.addCollectable(id, relX, relY, false);
         }
 
-        // Update the view with all the new values from firebase
         updateGUI(player1Name,player2Name,p1Score,p2Score,rounds,captureOptions,capture,thisPlayer);
         invalidate();
     }
@@ -518,7 +497,9 @@ public class GameBoardView extends View {
     }
 
     public void generateBoard(){
+        board.setCanvasParam(canvas_width, canvas_height, view_width);
         board.populateGameBoard();
+        invalidate();
     }
 
     public int getCollectableAmt(){

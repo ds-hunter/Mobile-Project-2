@@ -7,7 +7,7 @@ import android.util.Log;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Random;
 
 import edu.sdsmt.group4.View.GameBoardView;
 
@@ -24,19 +24,35 @@ public class GameBoard {
     private final static String LOCATIONS = "GameBoard.locations";
     private final static String IDS = "GameBoard.ids";
     private int rounds;
+    private int totalRound;
     private final Context context;
-    private long player1Update = System.currentTimeMillis() / 1000L;
-    private long player2Update = System.currentTimeMillis() / 1000L;
     GameBoardView view;
+    private float canvasWidth;
+    private float canvasHeight;
+    private float viewWidth;
 
     public GameBoard(Context context, GameBoardView view) {
         this.context = context;
         this.view = view;
     }
 
+    public void setCanvasParam(float cWidth, float cHeight, float vWidth){
+        canvasWidth = cWidth;
+        canvasHeight = cHeight;
+        viewWidth = vWidth;
+    }
+
     public void populateGameBoard(){
+        Random rand = new Random();
+
+        float canvasx = (viewWidth - canvasWidth)/2;
+        float canvasy = 0;
+
         for (int i = 0; i < 21; i++) {
             Collectable collectable = new Collectable(context, i, 0.2f);
+            collectable.setShuffle(true);
+            collectable.shuffle(canvasWidth, canvasHeight, canvasx, canvasy, rand);
+            collectable.setShuffle(false);
             collectables.add(collectable);
         }
     }
@@ -151,10 +167,7 @@ public class GameBoard {
         }
 
         public int getCurrentPlayerId () {
-            if (currentPlayer != null) {
-                return currentPlayer.getId();
-            }
-            return 0;
+            return currentPlayer.getId();
         }
 
         public String getPlayer1Score () {
@@ -240,20 +253,7 @@ public class GameBoard {
         c.setShuffle(shuffle);
         collectables.add(c);
     }
-
     public void clearCollectables() {
         collectables.clear();
-    }
-
-    public long getPlayer1Time() { return System.currentTimeMillis() / 1000L - player1Update; }
-
-    public long getPlayer2Time() { return System.currentTimeMillis() / 1000L - player2Update; }
-
-    public void player1Update() {
-        player1Update = System.currentTimeMillis() / 1000L;
-    }
-
-    public void player2Update() {
-        player2Update = System.currentTimeMillis() / 1000L;
     }
 }
