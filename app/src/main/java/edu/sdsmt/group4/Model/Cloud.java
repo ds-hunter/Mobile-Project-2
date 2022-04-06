@@ -71,7 +71,11 @@ public class Cloud {
         matches.child("testmatchUID/game/currPlayer").setValue(0);
         matches.child("testmatchUID/game/currRound").setValue("5");
         matches.child("testmatchUID/game/endGame").setValue(false);
+        matches.child("testmatchUID/game/collectableAmt").setValue(0);
 
+        for(int i = 0; i <= 17 ; i++){
+            matches.child("testmatchUID/game/collectables/c"+i).removeValue();
+        }
     }
 
 

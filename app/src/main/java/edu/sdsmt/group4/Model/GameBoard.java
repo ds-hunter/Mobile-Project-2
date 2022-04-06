@@ -30,10 +30,17 @@ public class GameBoard {
     public GameBoard(Context context, GameBoardView view) {
         this.context = context;
         this.view = view;
+    }
+
+    public void populateGameBoard(){
         for (int i = 0; i < 21; i++) {
             Collectable collectable = new Collectable(context, i, 0.2f);
             collectables.add(collectable);
         }
+    }
+
+    public int getCollectableAmt(){
+        return collectables.size();
     }
 
     public ArrayList<Collectable> getCollectables () {

@@ -493,4 +493,12 @@ public class GameBoardView extends View {
     public void saveJSON(DatabaseReference snapshot) {
         board.saveJSON(snapshot);
     }
+
+    public void generateBoard(){
+        board.populateGameBoard();
+    }
+
+    public int getCollectableAmt(){
+        return board.getCollectableAmt();
+    }
 }
