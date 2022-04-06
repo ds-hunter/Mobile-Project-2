@@ -3,7 +3,7 @@ package edu.sdsmt.group4.Model;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-
+import java.util.Date;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
@@ -30,6 +30,8 @@ public class GameBoard {
     private float canvasWidth;
     private float canvasHeight;
     private float viewWidth;
+    private long player1Update = System.currentTimeMillis() / 1000L;
+    private long player2Update = System.currentTimeMillis() / 1000L;
 
     public GameBoard(Context context, GameBoardView view) {
         this.context = context;
@@ -167,7 +169,10 @@ public class GameBoard {
         }
 
         public int getCurrentPlayerId () {
-            return currentPlayer.getId();
+            if (currentPlayer != null) {
+                return currentPlayer.getId();
+            }
+            return 0;
         }
 
         public String getPlayer1Score () {
@@ -180,6 +185,18 @@ public class GameBoard {
             if (getNumPlayers() < 2)
                 return "0";
             return String.valueOf(players.get(1).getScore());
+        }
+
+        public long getPlayer1Time() { return System.currentTimeMillis() / 1000L - player1Update; }
+
+        public long getPlayer2Time() { return System.currentTimeMillis() / 1000L - player2Update; }
+
+        public void player1Update() {
+            player1Update = System.currentTimeMillis() / 1000L;
+        }
+
+        public void player2Update() {
+            player2Update = System.currentTimeMillis() / 1000L;
         }
 
         public void setPlayer1Score (int score) {
