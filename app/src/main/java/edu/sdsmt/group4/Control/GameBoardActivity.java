@@ -134,6 +134,7 @@ public class GameBoardActivity extends AppCompatActivity {
 
     public void endGame()
     {
+
         cloud.setEndGame();
         String winner = "WINNER\n";
         int player1Score = Integer.parseInt(view.getPlayer1Score());
@@ -247,7 +248,6 @@ public class GameBoardActivity extends AppCompatActivity {
 
             if(loadBool) {
                 cloud.loadFromCloud(view, player1Name, player2Name, player1Score, player2Score, rounds, captureOptions, capture, thisPlayer);
-                isEndGame();
             }
         }
     }
