@@ -36,7 +36,7 @@ public class Cloud {
     )
     {
         DatabaseReference matchRef = matches.child("testmatchUID");
-        Log.d("inside load game", "load");
+
         // Read from the database
         matchRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

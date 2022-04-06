@@ -48,6 +48,7 @@ public class GameBoardActivity extends AppCompatActivity {
     Timer timer;
     Timer loadTimer;
     Cloud cloud;
+
     @Override
     protected void onSaveInstanceState(@NonNull Bundle bundle) {
         super.onSaveInstanceState(bundle);
@@ -102,6 +103,7 @@ public class GameBoardActivity extends AppCompatActivity {
         capture = findViewById(R.id.captureButton);
         captureOptions = findViewById(R.id.optionsButton);
         capture.setEnabled(false);
+
         //load from cloud here?
         player1Score.setText(view.getPlayer1Score());
         player2Score.setText(view.getPlayer2Score());

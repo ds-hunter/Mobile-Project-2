@@ -7,6 +7,7 @@ import android.util.Log;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import edu.sdsmt.group4.View.GameBoardView;
 
@@ -23,8 +24,9 @@ public class GameBoard {
     private final static String LOCATIONS = "GameBoard.locations";
     private final static String IDS = "GameBoard.ids";
     private int rounds;
-    private int totalRound;
     private final Context context;
+    private long player1Update = System.currentTimeMillis() / 1000L;
+    private long player2Update = System.currentTimeMillis() / 1000L;
     GameBoardView view;
 
     public GameBoard(Context context, GameBoardView view) {
@@ -149,7 +151,10 @@ public class GameBoard {
         }
 
         public int getCurrentPlayerId () {
-            return currentPlayer.getId();
+            if (currentPlayer != null) {
+                return currentPlayer.getId();
+            }
+            return 0;
         }
 
         public String getPlayer1Score () {
@@ -235,7 +240,20 @@ public class GameBoard {
         c.setShuffle(shuffle);
         collectables.add(c);
     }
+
     public void clearCollectables() {
         collectables.clear();
+    }
+
+    public long getPlayer1Time() { return System.currentTimeMillis() / 1000L - player1Update; }
+
+    public long getPlayer2Time() { return System.currentTimeMillis() / 1000L - player2Update; }
+
+    public void player1Update() {
+        player1Update = System.currentTimeMillis() / 1000L;
+    }
+
+    public void player2Update() {
+        player2Update = System.currentTimeMillis() / 1000L;
     }
 }
