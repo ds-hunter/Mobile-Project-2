@@ -58,7 +58,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:onClick="onStart"
-        android:text="@string/StartButtonText"
+        android:text="@string/login"
         app:layout_constraintEnd_toEndOf="@+id/accountButton"
         app:layout_constraintStart_toStartOf="@+id/accountButton"
         app:layout_constraintTop_toBottomOf="@+id/WelcomeTextView" />
@@ -97,6 +97,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.35" />
+
+    <Button
+        android:id="@+id/resetButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reset_firebase"
+        android:onClick = "resetFirebaseClicked"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <CheckBox
         android:id="@+id/rememberBox"

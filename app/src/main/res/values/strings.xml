@@ -74,6 +74,7 @@ CAPTURE OPTIONS\n\n
     <string name="remember">Remember</string>
 
     <string name="leave_match">Leave Match</string>
+    <string name="reset_firebase">Reset Firebase</string>
 
 </resources>
 

@@ -62,6 +62,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import edu.sdsmt.group4.Model.Cloud;
 import edu.sdsmt.group4.Model.GameBoard;
 import edu.sdsmt.group4.Model.MonitorCloud;
 import edu.sdsmt.group4.R;
@@ -131,6 +132,12 @@ public class WelcomeActivity extends AppCompatActivity {
         monitor.startAuthListening();
         if(monitor.isAuthenticated())
             startActivity(intent);
+    }
+
+    public void resetFirebaseClicked(View v)
+    {
+        Cloud cloud = new Cloud();
+        cloud.reset();
     }
 
     public void logIn(boolean authenticated){

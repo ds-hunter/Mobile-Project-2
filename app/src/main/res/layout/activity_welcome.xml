@@ -110,6 +110,15 @@
         app:layout_constraintStart_toStartOf="@+id/roundsInput"
         app:layout_constraintTop_toBottomOf="@+id/roundsInput" />
 
+    <Button
+        android:id="@+id/resetButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reset_firebase"
+        android:onClick = "resetFirebaseClicked"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
