@@ -215,7 +215,7 @@ public class GameBoardActivity extends AppCompatActivity {
                 if (dlg != null) {
                     dlg.dismiss();
                 }
-                if(view.getCollectableAmt() == 0 && thisPlayer == view.getPlayer1Name()) {
+                if(view.getCollectableAmt() == 0 && thisPlayer.equals(view.getPlayer1Email())) {
                     loadBool = false;
                     view.generateBoard();
                     cloud.saveToCloud(view);
