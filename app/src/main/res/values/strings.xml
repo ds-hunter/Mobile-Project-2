@@ -46,7 +46,7 @@ CAPTURE OPTIONS\n\n
     <string name="loading_fail">Failed to retrieve data from the cloud</string>
     <string name="emailInputHint">Email</string>
     <string name="passwordInputHint">Password</string>
-    <string name="waitingForPlayersHint">Waiting for player…</string>
+    <string name="waitingForPlayersHint">Waiting for player/loading…</string>
     <string name="playerImgDesc">User</string>
     <string name="new_password">new Password</string>
     <string name="confirm_password">Confirm Password</string>
@@ -59,7 +59,8 @@ CAPTURE OPTIONS\n\n
     <string name="exit_game">End Game</string>
     <string name="remember">Remember</string>
 
-    <string name="reset_firebase">Reset Firebase</string>
+    <string name="reset_firebase">Reset GameState</string>
+
 
 </resources>
 

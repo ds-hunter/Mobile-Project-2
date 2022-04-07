@@ -17,12 +17,12 @@ public class EndGameActivity extends AppCompatActivity {
     TextView player1;
     TextView player2;
     TextView winner;
-
+    Cloud cloud;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_game);
-
+         cloud = new Cloud();
         player1 = findViewById(R.id.player1Score);
         player2 = findViewById(R.id.player2Score);
         winner = findViewById(R.id.winnerTextView);
@@ -33,6 +33,8 @@ public class EndGameActivity extends AppCompatActivity {
         player1.setText(intent.getStringExtra(PLAYER1_MESSAGE));
         player2.setText(intent.getStringExtra(PLAYER2_MESSAGE));
         winner.setText(intent.getStringExtra(WINNER_MESSAGE));
+
+        cloud.reset();
     }
 
 
@@ -54,16 +56,13 @@ public class EndGameActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Cloud cloud = new Cloud();
 
-        cloud.reset();
         finish();
     }
 
     public void onReturnClick(View view)
     {
-        Cloud cloud = new Cloud();
-        cloud.reset();
+
         finish();
     }
 }

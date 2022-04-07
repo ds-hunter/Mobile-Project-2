@@ -43,6 +43,7 @@ public class WaitingDlg extends DialogFragment {
             activity.stopLoadTimer();
         });
 
+
         return builder.create();
     }
 }

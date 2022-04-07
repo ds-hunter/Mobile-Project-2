@@ -5,7 +5,8 @@ package edu.sdsmt.group4.Control;
         firebase login: Added Dr.Rebenitsch as owner of firebase project
         firebase password: Added Dr.Rebenitsch as owner of firebase project
         Time out period: 30 seconds
-        How to reset database (file or button): TODO
+        How to reset database (file or button): file, there is a reset button in the game, but it is
+                      for resetting only part of the firebase(more info provided below)
         Reminder: Mark where the timeout period is set with GRADING: TIMEOUT
 
 
@@ -55,7 +56,7 @@ package edu.sdsmt.group4.Control;
 
         Please list any additional rules that may be needed to properly grade your project:
         If you exit the game without clicking any of the below options after logging in, you will
-        have to click the reset firebase button to restore the game state
+        have to click the reset gamestate button to restore the game state
         1)the play again or back button of endgame activity
         2) The cancel button from the waiting player dialog
         3) The endgame or back button from the GameBoard activity

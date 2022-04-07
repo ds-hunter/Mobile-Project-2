@@ -79,7 +79,7 @@ public class GameBoardActivity extends AppCompatActivity {
         ref = cloud.getReference();
         // Set the waiting for player timer
         view = this.findViewById(R.id.gameBoardView);
-        if (view.getNumPlayers() != 2 && savedInstanceState.isEmpty()) {
+        if (view.getNumPlayers() != 2 ) {
             dlg = new WaitingDlg();
             dlg.setActivity(this);
             dlg.show(getSupportFragmentManager(), "Loading");
