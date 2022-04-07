@@ -1,12 +1,8 @@
 package edu.sdsmt.group4.Model;
 
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -14,7 +10,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import edu.sdsmt.group4.Control.GameBoardActivity;
 import edu.sdsmt.group4.R;
 import edu.sdsmt.group4.View.GameBoardView;
 

@@ -2,10 +2,7 @@
     <string name="app_name">Group 1</string>
     <!-- Welcome -->
     <string name="WelcomeText">Welcome Players!</string>
-    <string name="NameInput1Hint">Player 1</string>
-    <string name="NameInput2Hint">Player 2</string>
     <string name="RoundsInputHint">Number of Rounds (1-inf)</string>
-    <string name="StartButtonText">START GAME</string>
     <string name="HowToPlayButtonText">HOW TO PLAY</string>
     <string name="HowToPlayTitle">How To Play</string>
     <string name="HowToPlayMessage">GOAL\n\n
@@ -28,9 +25,7 @@ CAPTURE OPTIONS\n\n
     Invalid number of rounds will result in default settings for the rounds.</string>
 
     <!-- GameBoard -->
-    <string name="Name1">Player 1</string>
     <string name="Rounds">Rounds</string>
-    <string name="Name2">Player 2</string>
     <string name="capture_options">Capture Options</string>
     <string name="capture">Capture!</string>
     <string name="QUIT_GAME">Quit Game?</string>
@@ -51,29 +46,19 @@ CAPTURE OPTIONS\n\n
     <string name="loading_fail">Failed to retrieve data from the cloud</string>
     <string name="emailInputHint">Email</string>
     <string name="passwordInputHint">Password</string>
-    <string name="screenNameInputHint">Screen Name</string>
     <string name="waitingForPlayersHint">Waiting for player…</string>
     <string name="playerImgDesc">User</string>
     <string name="new_password">new Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="username">user name</string>
     <string name="create">Create</string>
-    <string name="title_activity_new_user">NewUserActivity</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="login">login</string>
-    <string name="saving_fail">Failed to save</string>
     <string name="create_account">Create Account</string>
     <string name="exit_game">End Game</string>
     <string name="remember">Remember</string>
 
-    <string name="leave_match">Leave Match</string>
     <string name="reset_firebase">Reset Firebase</string>
 
 </resources>

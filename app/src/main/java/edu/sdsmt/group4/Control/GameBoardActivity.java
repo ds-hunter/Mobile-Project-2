@@ -79,7 +79,7 @@ public class GameBoardActivity extends AppCompatActivity {
         ref = cloud.getReference();
         // Set the waiting for player timer
         view = this.findViewById(R.id.gameBoardView);
-        if (view.getNumPlayers() != 2) {
+        if (view.getNumPlayers() != 2 && savedInstanceState.isEmpty()) {
             dlg = new WaitingDlg();
             dlg.setActivity(this);
             dlg.show(getSupportFragmentManager(), "Loading");
@@ -174,13 +174,15 @@ public class GameBoardActivity extends AppCompatActivity {
         loadTimer.cancel();
     }
 
-    //GRADING: BACK
+
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(GameBoardActivity.this);
         builder.setTitle(R.string.QUIT_GAME);
         builder.setMessage(R.string.QUIT_GAME_MESSAGE);
-        builder.setPositiveButton(android.R.string.ok, (dialog, which) -> finish());
+        builder.setPositiveButton(android.R.string.ok, (dialog, id) -> {
+            endGame();
+        });
         builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss());
         builder.show();
     }
@@ -254,6 +256,7 @@ public class GameBoardActivity extends AppCompatActivity {
             if(loadBool) {
                 cloud.loadFromCloud(view, player1Name, player2Name, player1Score, player2Score, rounds, captureOptions, capture, thisPlayer);
                 // Check if board currently has 2 players to detect if a match is going and check for timeouts
+                //GRADING: TIMEOUT
                 if (view.getNumPlayers() == 2) {
                     if (view.getPlayer1Time() > 30) {
                         Log.d("Player Timeout", "Player 1");

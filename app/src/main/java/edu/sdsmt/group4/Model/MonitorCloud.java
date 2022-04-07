@@ -1,9 +1,6 @@
 package edu.sdsmt.group4.Model;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -120,7 +117,11 @@ public class MonitorCloud {
                 }
             }
         });
+    }
 
+    public void signOut()
+    {
+       userAuth.signOut();
     }
 
     public void startAuthListening() {
@@ -237,6 +238,7 @@ public class MonitorCloud {
     }
 
 
-
-
+    public void setAuthenticated(boolean b) {
+        authenticated = b;
+    }
 }

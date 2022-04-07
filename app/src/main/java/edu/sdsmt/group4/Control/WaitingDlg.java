@@ -10,9 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import edu.sdsmt.group4.Model.Cloud;
-import edu.sdsmt.group4.Model.GameBoard;
 import edu.sdsmt.group4.R;
-import edu.sdsmt.group4.View.GameBoardView;
 
 public class WaitingDlg extends DialogFragment {
     private GameBoardActivity activity;

@@ -1,77 +1,86 @@
 package edu.sdsmt.group4.Control;
 
-/* *
- * Project 1 Grading
- *
- * Group:
- * Done 6pt No redundant activities
- * Done 6pt How to play dialog
- * Done 6pt Icons
- * Done 6pt End activity
- * Done 6pt Back button handled
- * How to open the "how to play dialog": Click on the how to play button
- *
- * Individual:
- *
- * 	Play activity and custom view
- *
- * 		Done 9pt Activity appearance
- * 		Done 16pt Static Custom View
- * 		Done 20pt Dynamic part of the Custom View
- * 		Done 15pt Rotation
- *
- * 	Welcome activity and Game Class
- *
- * 		Done 13pt Welcome activity appearance
- * 		Done 20pt Applying capture rules
- * 		Done 12pt Game state
- * 		Done 15pt Rotation
- * 		What is the probability of the rectangle capture: starts with 50% and changes proportional
- *       to the scaling. So if 2 times larger, probability is 25%
- *
- * 	Capture activity and activity sequencing
- *
- * 		Done 9pt Capture activity appearance
- * 		Done 16pt Player round sequencing
- * 		Done 20pt Move to next activity
- * 		Done 15pt Rotation
- *
- * 	Timer
- *
- * 		NA 9pt Timer activity
- * 		NA 24pt Graphic
- * 		NA 12pt Player turn end
- * 		NA 15pt Rotation
- *
- *
- * Please list any additional rules that may be needed to properly grade your project:
- */
+/**Project 2 Grading
+
+        firebase login: Added Dr.Rebenitsch as owner of firebase project
+        firebase password: Added Dr.Rebenitsch as owner of firebase project
+        Time out period: 30 seconds
+        How to reset database (file or button): TODO
+        Reminder: Mark where the timeout period is set with GRADING: TIMEOUT
+
+
+        Group:
+
+        Done 6pt Game still works and Database setup
+        Done 8pt Database setup\reset
+        Done 8pt New user activity
+        Done 18pt Opening\login activity
+        Done 5pt rotation
+
+
+        Individual:
+
+        Sequencing
+        Done 4pt Registration sequence
+        Done 9pt Login Sequence
+        Done 18pt Play Sequence
+        Done 9pt Exiting menu, and handlers
+        Done 5pt rotation
+
+
+        Upload
+
+        Done 6pt intial setup
+        Done 6pt waiting
+        Done 17pt store game state
+        Done 11pt notify end/early exits
+        Done 5pt rotation
+
+
+        Download
+
+        Done 6pt intial setup
+        Done 6pt waiting
+        Done 17pt store game state
+        Done 11pt grab and forward end/early exits
+        Done 5pt rotation
+
+
+        Monitor Waiting
+        NA 10pt inital setup
+        NA 12pt Uploading the 3 state
+        NA 12pt Downloading the 3 state
+        NA 6pt UI update
+        NA 5pt rotation
+
+        Please list any additional rules that may be needed to properly grade your project:
+        If you exit the game without clicking any of the below options after logging in, you will
+        have to click the reset firebase button to restore the game state
+        1)the play again or back button of endgame activity
+        2) The cancel button from the waiting player dialog
+        3) The endgame or back button from the GameBoard activity
+        Also, if you login as a valid user, press cancel and then log in again with same email but
+        wrong password, it will take you to the game board activity but it will inform you that
+        you have wrong credentials.
+**/
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import edu.sdsmt.group4.Model.Cloud;
-import edu.sdsmt.group4.Model.GameBoard;
 import edu.sdsmt.group4.Model.MonitorCloud;
 import edu.sdsmt.group4.R;
 
 public class WelcomeActivity extends AppCompatActivity {
-    int TYPE_TEXT_VARIATION_VISIBLE_PASSWORD = 145;
-    int TYPE_TEXT_VARIATION_PASSWORD = 129;
-    public final static String PLAYER1NAME_MESSAGE = "edu.sdsmt.group1.PLAYER1NAME_MESSAGE";
-    public final static String PLAYER2NAME_MESSAGE  = "edu.sdsmt.group1.PLAYER2NAME_MESSAGE";
+
     public final static String THIS_PLAYER  = "edu.sdsmt.group1.THIS_PLAYER";
     public final static String ROUNDS_MESSAGE  = "edu.sdsmt.group1.ROUNDS_MESSAGE";
     private SharedPreferences preferences;
@@ -104,6 +113,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     public void onStart(View view) {
         final MonitorCloud monitor = MonitorCloud.INSTANCE;
+        monitor.signOut();
         Intent intent = new Intent(this, GameBoardActivity.class);
          //This is old stuff but we will leave it for no
 
@@ -130,8 +140,10 @@ public class WelcomeActivity extends AppCompatActivity {
                 roundTotal);
         monitor.signIn();
         monitor.startAuthListening();
-        if(monitor.isAuthenticated())
+        if(monitor.isAuthenticated()) {
+            monitor.setAuthenticated(false);
             startActivity(intent);
+        }
     }
 
     public void resetFirebaseClicked(View v)
