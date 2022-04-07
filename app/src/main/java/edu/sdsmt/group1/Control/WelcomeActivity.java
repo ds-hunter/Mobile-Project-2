@@ -60,9 +60,7 @@ package edu.sdsmt.group1.Control;
         1)the play again or back button of endgame activity
         2) The cancel button from the waiting player dialog
         3) The endgame or back button from the GameBoard activity
-        Also, if you login as a valid user, press cancel and then log in again with same email but
-        wrong password, it will take you to the game board activity but it will inform you that
-        you have wrong credentials.
+
 **/
 
 import android.content.Intent;
@@ -71,6 +69,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -156,7 +155,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     public void logIn(boolean authenticated){
         if(!authenticated){
-            //TODO: create an error message explaining why sign-in failed
+            Toast.makeText(getApplicationContext(), R.string.loading_fail,Toast.LENGTH_SHORT).show();
         }else {
             Intent intent = new Intent(this, GameBoardActivity.class);
             intent.putExtra(ROUNDS_MESSAGE, rounds.getText().toString());

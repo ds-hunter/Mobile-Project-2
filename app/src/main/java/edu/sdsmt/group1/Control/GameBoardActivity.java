@@ -243,13 +243,13 @@ public class GameBoardActivity extends AppCompatActivity {
                 // Read from the database
                 matchRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if ((boolean) dataSnapshot.getValue()) {
                             endGame();
                         }
                     }
                     @Override
-                    public void onCancelled(DatabaseError error) {
+                    public void onCancelled(@NonNull DatabaseError error) {
 
                     }
                 });

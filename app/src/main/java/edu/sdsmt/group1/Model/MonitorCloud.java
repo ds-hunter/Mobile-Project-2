@@ -158,7 +158,7 @@ public class MonitorCloud {
         // Read from the database
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (!(TAG.equals(""))) {
                     String UID = firebaseUser.getUid();
                     USER = dataSnapshot.child("/name").getValue().toString();
@@ -176,7 +176,7 @@ public class MonitorCloud {
             }
 
             @Override
-            public void onCancelled(DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error) {
                 Log.d("setName", error.toString());
             }
         });
@@ -186,7 +186,7 @@ public class MonitorCloud {
         DatabaseReference tempRef = matchRef.child("testmatchUID");
         tempRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot snapshot) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.child("player1").exists()) {
                     TAG = "player1";
                 } else if (!snapshot.child("player2").exists()) {
@@ -207,7 +207,7 @@ public class MonitorCloud {
             }
 
             @Override
-            public void onCancelled(DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error) {
                 Log.d("setName", error.toString());
             }
         });
@@ -219,7 +219,7 @@ public class MonitorCloud {
         // Read from the database
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if ((TAG.equals(""))) {
                     String UID = firebaseUser.getUid();
                     USER = dataSnapshot.child(UID + "/screenName").getValue().toString();
@@ -234,7 +234,7 @@ public class MonitorCloud {
             }
 
             @Override
-            public void onCancelled(DatabaseError error) { }
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
     }
 

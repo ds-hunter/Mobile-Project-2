@@ -34,7 +34,7 @@ public class NewUserActivity extends AppCompatActivity {
 
     public void logIn(boolean authenticated){
         if(!authenticated){
-            //TODO: Create error message if creation fails
+            Toast.makeText(getApplicationContext(), R.string.loading_fail,Toast.LENGTH_SHORT).show();
         }else{
             finish();
         }
