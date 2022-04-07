@@ -42,6 +42,7 @@ public class WaitingDlg extends DialogFragment {
             Cloud cloud = new Cloud();
             cloud.reset();
             activity.finish();
+            activity.stopLoadTimer();
         });
 
         return builder.create();
