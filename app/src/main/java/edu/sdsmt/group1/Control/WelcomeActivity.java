@@ -5,8 +5,11 @@ package edu.sdsmt.group1.Control;
         firebase login: Added Dr.Rebenitsch as owner of firebase project
         firebase password: Added Dr.Rebenitsch as owner of firebase project
         Time out period: 30 seconds
-        How to reset database (file or button): file, there is a reset button in the game, but it is
-                      for resetting only part of the firebase(more info provided below)
+        How to reset database (file or button): file is located in res/values put its location
+        causes build errors. So, file needs to be moved before building and running the project.
+        NOTE: there is a reset button in the game, but it is for resetting only part of the
+             firebase(more info provided below)
+
         Reminder: Mark where the timeout period is set with GRADING: TIMEOUT
 
 
@@ -60,6 +63,9 @@ package edu.sdsmt.group1.Control;
         1)the play again or back button of endgame activity
         2) The cancel button from the waiting player dialog
         3) The endgame or back button from the GameBoard activity
+
+       Sometimes, there is delay in the play again button in the end game activity,
+       so you might need to click it a few times to return to the login activity.
 
 **/
 
