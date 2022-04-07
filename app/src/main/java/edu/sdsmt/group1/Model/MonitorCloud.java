@@ -1,4 +1,4 @@
-package edu.sdsmt.group4.Model;
+package edu.sdsmt.group1.Model;
 
 import android.util.Log;
 
@@ -17,8 +17,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
-import edu.sdsmt.group4.Control.NewUserActivity;
-import edu.sdsmt.group4.Control.WelcomeActivity;
+import edu.sdsmt.group1.Control.NewUserActivity;
+import edu.sdsmt.group1.Control.WelcomeActivity;
 
 public class MonitorCloud {
     //public final static MonitorCloud INSTANCE = new MonitorCloud();

@@ -1,21 +1,18 @@
-package edu.sdsmt.group4.Model;
+package edu.sdsmt.group1.Model;
 
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import edu.sdsmt.group4.Control.WaitingDlg;
-import edu.sdsmt.group4.R;
-import edu.sdsmt.group4.View.GameBoardView;
+import edu.sdsmt.group1.Control.WaitingDlg;
+import edu.sdsmt.group1.R;
+import edu.sdsmt.group1.View.GameBoardView;
 
 public class Cloud {
     private final static FirebaseDatabase database = FirebaseDatabase.getInstance();

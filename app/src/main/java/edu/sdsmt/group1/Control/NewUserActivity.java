@@ -1,4 +1,4 @@
-package edu.sdsmt.group4.Control;
+package edu.sdsmt.group1.Control;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,8 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import edu.sdsmt.group4.Model.MonitorCloud;
-import edu.sdsmt.group4.R;
+import edu.sdsmt.group1.Model.MonitorCloud;
+import edu.sdsmt.group1.R;
 
 public class NewUserActivity extends AppCompatActivity {
     private TextView userName;

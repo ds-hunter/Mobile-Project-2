@@ -1,4 +1,4 @@
-package edu.sdsmt.group4.Control;
+package edu.sdsmt.group1.Control;
 
 /**Project 2 Grading
 
@@ -76,9 +76,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import edu.sdsmt.group4.Model.Cloud;
-import edu.sdsmt.group4.Model.MonitorCloud;
-import edu.sdsmt.group4.R;
+import edu.sdsmt.group1.Model.Cloud;
+import edu.sdsmt.group1.Model.MonitorCloud;
+import edu.sdsmt.group1.R;
 
 public class WelcomeActivity extends AppCompatActivity {
 

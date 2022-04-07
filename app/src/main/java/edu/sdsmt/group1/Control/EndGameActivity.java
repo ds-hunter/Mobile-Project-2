@@ -1,4 +1,4 @@
-package edu.sdsmt.group4.Control;
+package edu.sdsmt.group1.Control;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import edu.sdsmt.group4.Model.Cloud;
-import edu.sdsmt.group4.R;
+import edu.sdsmt.group1.Model.Cloud;
+import edu.sdsmt.group1.R;
 
 public class EndGameActivity extends AppCompatActivity {
     public final static String PLAYER1_MESSAGE = "edu.sdsmt.group1.PLAYER1_MESSAGE";

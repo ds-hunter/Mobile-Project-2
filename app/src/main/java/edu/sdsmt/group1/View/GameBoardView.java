@@ -1,4 +1,4 @@
-package edu.sdsmt.group4.View;
+package edu.sdsmt.group1.View;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -20,13 +20,13 @@ import com.google.firebase.database.DatabaseReference;
 import java.util.Objects;
 import java.util.Random;
 
-import edu.sdsmt.group4.Model.CaptureObject;
-import edu.sdsmt.group4.Model.CircleCapture;
-import edu.sdsmt.group4.Model.Collectable;
-import edu.sdsmt.group4.Model.GameBoard;
-import edu.sdsmt.group4.Model.LineCapture;
-import edu.sdsmt.group4.Model.Player;
-import edu.sdsmt.group4.Model.RectangleCapture;
+import edu.sdsmt.group1.Model.CaptureObject;
+import edu.sdsmt.group1.Model.CircleCapture;
+import edu.sdsmt.group1.Model.Collectable;
+import edu.sdsmt.group1.Model.GameBoard;
+import edu.sdsmt.group1.Model.LineCapture;
+import edu.sdsmt.group1.Model.Player;
+import edu.sdsmt.group1.Model.RectangleCapture;
 
 public class GameBoardView extends View {
     private static final String CAPTURE_TYPE = "gameBoard.CaptureType" ;

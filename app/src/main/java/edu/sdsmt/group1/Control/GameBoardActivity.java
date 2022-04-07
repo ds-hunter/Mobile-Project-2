@@ -1,4 +1,4 @@
-package edu.sdsmt.group4.Control;
+package edu.sdsmt.group1.Control;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -26,9 +26,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import edu.sdsmt.group4.Model.Cloud;
-import edu.sdsmt.group4.R;
-import edu.sdsmt.group4.View.GameBoardView;
+import edu.sdsmt.group1.Model.Cloud;
+import edu.sdsmt.group1.R;
+import edu.sdsmt.group1.View.GameBoardView;
 
 public class GameBoardActivity extends AppCompatActivity {
     private GameBoardView view;

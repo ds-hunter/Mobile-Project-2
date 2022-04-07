@@ -1,4 +1,4 @@
-package edu.sdsmt.group4.Model;
+package edu.sdsmt.group1.Model;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import com.google.firebase.database.DatabaseReference;
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.sdsmt.group4.View.GameBoardView;
+import edu.sdsmt.group1.View.GameBoardView;
 
 public class GameBoard {
 

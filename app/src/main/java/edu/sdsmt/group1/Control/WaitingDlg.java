@@ -1,4 +1,4 @@
-package edu.sdsmt.group4.Control;
+package edu.sdsmt.group1.Control;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,8 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import edu.sdsmt.group4.Model.Cloud;
-import edu.sdsmt.group4.R;
+import edu.sdsmt.group1.Model.Cloud;
+import edu.sdsmt.group1.R;
 
 public class WaitingDlg extends DialogFragment {
     private GameBoardActivity activity;

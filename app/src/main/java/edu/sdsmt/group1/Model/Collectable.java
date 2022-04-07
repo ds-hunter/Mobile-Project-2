@@ -1,11 +1,11 @@
-package edu.sdsmt.group4.Model;
+package edu.sdsmt.group1.Model;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import java.util.Random;
-import edu.sdsmt.group4.R;
+import edu.sdsmt.group1.R;
 
 public class Collectable {
     private final Bitmap bitmap;
