@@ -116,7 +116,7 @@ public class GameBoard {
         bundle.putIntArray(PLAYER_SCORES, playerScores);
         bundle.putStringArray(PLAYER_NAMES, playerNames);
         bundle.putStringArray(PLAYER_EMAILS, playerEmails);
-        bundle.putInt(CURRENT_PLAYER_ID, currentPlayer.getId());
+        //bundle.putInt(CURRENT_PLAYER_ID, currentPlayer.getId());
     }
 
         public void loadInstanceState (Bundle bundle){
@@ -144,7 +144,7 @@ public class GameBoard {
                 players.get(i).setEmail(playerEmails[i]);
             }
 
-             currentPlayer = new Player(players.get(id).getName(), id);
+             //currentPlayer = new Player(players.get(id).getName(), id);
         }
 
         public boolean isEndGame () {
@@ -173,6 +173,10 @@ public class GameBoard {
                 return currentPlayer.getId();
             }
             return 0;
+        }
+
+        public Player getCurrentPlayer() {
+            return currentPlayer;
         }
 
         public String getPlayer1Score () {

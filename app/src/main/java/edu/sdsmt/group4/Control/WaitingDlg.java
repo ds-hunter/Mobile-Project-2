@@ -10,16 +10,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import edu.sdsmt.group4.Model.Cloud;
+import edu.sdsmt.group4.Model.GameBoard;
 import edu.sdsmt.group4.R;
 import edu.sdsmt.group4.View.GameBoardView;
 
 public class WaitingDlg extends DialogFragment {
-    private GameBoardView view;
-
     private GameBoardActivity activity;
-    public WaitingDlg(GameBoardView view, GameBoardActivity activity) {
-        this.view = view;
-        this.activity = activity;
+
+    public WaitingDlg() {
+    }
+
+    public void setActivity(GameBoardActivity a) {
+        activity = a;
     }
 
     @Override
@@ -39,7 +41,7 @@ public class WaitingDlg extends DialogFragment {
             // UPLOAD TASK, DELETE USER FROM FIREBASE
             Cloud cloud = new Cloud();
             cloud.reset();
-                activity.finish();
+            activity.finish();
         });
 
         return builder.create();

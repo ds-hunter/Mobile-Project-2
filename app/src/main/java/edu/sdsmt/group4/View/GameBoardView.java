@@ -17,20 +17,16 @@ import android.widget.TextView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
-import edu.sdsmt.group4.Control.GameBoardActivity;
-import edu.sdsmt.group4.Control.WaitingDlg;
 import edu.sdsmt.group4.Model.CaptureObject;
 import edu.sdsmt.group4.Model.CircleCapture;
-import edu.sdsmt.group4.Model.Cloud;
 import edu.sdsmt.group4.Model.Collectable;
 import edu.sdsmt.group4.Model.GameBoard;
 import edu.sdsmt.group4.Model.LineCapture;
+import edu.sdsmt.group4.Model.Player;
 import edu.sdsmt.group4.Model.RectangleCapture;
-import edu.sdsmt.group4.R;
 
 public class GameBoardView extends View {
     private static final String CAPTURE_TYPE = "gameBoard.CaptureType" ;
@@ -432,16 +428,6 @@ public class GameBoardView extends View {
             String thisPlayer
     )
     {
-        // Check if board currently has 2 players to detect if a match is going and check for timeouts
-        if (board.getNumPlayers() == 2) {
-            if (board.getPlayer1Time() > 30) {
-                Log.d("Player Timeout", "Player 1");
-            }
-            if (board.getPlayer2Time() > 30) {
-                Log.d("Player Timeout", "Player 2");
-            }
-        }
-
         // load game data
         DataSnapshot gameData = snapshot.child("game");
         board.setRounds(Integer.parseInt(Objects.requireNonNull(gameData.child("currRound").getValue()).toString()));
@@ -484,15 +470,20 @@ public class GameBoardView extends View {
             }
         }
 
-        // Check for changes in the current player upon update to update a players timestamp
+        // There was a change in turns, update player timers
         int currPlayer = Integer.parseInt(Objects.requireNonNull(gameData.child("currPlayer").getValue()).toString());
         if (board.getCurrentPlayerId() != currPlayer) {
-            if (currPlayer == 1) {
-                board.player2Update();
-                Log.d("PLAYER UPDATE", "Player2");
-            } else {
-                board.player1Update();
-                Log.d("PLAYER UPDATE", "Player1");
+            board.player1Update();
+            board.player2Update();
+        } else {
+            // There was no change in player but make sure that the timer pauses for a player unable to do their turn
+            Player currentPlayer = board.getCurrentPlayer();
+            if (currentPlayer != null && !currentPlayer.getEmail().equals(thisPlayer)) {
+                if (currentPlayer.getId() == 0) {
+                    board.player2Update();
+                } else {
+                    board.player1Update();
+                }
             }
         }
         board.setPlayer(currPlayer);
@@ -507,7 +498,6 @@ public class GameBoardView extends View {
                 float relX = Float.parseFloat(Objects.requireNonNull(c.child("relx").getValue()).toString());
                 float relY = Float.parseFloat(Objects.requireNonNull(c.child("rely").getValue()).toString());
                 int id = Integer.parseInt(Objects.requireNonNull(c.getKey()).substring(1));
-                //Log.d("Creating Collectable", id + ": " + relX + ", " + relY);
                 board.addCollectable(id, relX, relY, false);
             }
         }
@@ -524,10 +514,25 @@ public class GameBoardView extends View {
     public void generateBoard(){
         board.setCanvasParam(canvas_width, canvas_height, view_width);
         board.populateGameBoard();
-        //invalidate();
     }
 
     public int getCollectableAmt(){
         return board.getCollectableAmt();
+    }
+
+    public void player1Update() {
+        board.player1Update();
+    }
+
+    public void player2Update() {
+        board.player2Update();
+    }
+
+    public long getPlayer1Time() {
+        return board.getPlayer1Time();
+    }
+
+    public long getPlayer2Time() {
+        return board.getPlayer2Time();
     }
 }
