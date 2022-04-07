@@ -73,6 +73,7 @@ public class WelcomeActivity extends AppCompatActivity {
     public final static String PLAYER1NAME_MESSAGE = "edu.sdsmt.group1.PLAYER1NAME_MESSAGE";
     public final static String PLAYER2NAME_MESSAGE  = "edu.sdsmt.group1.PLAYER2NAME_MESSAGE";
     public final static String THIS_PLAYER  = "edu.sdsmt.group1.THIS_PLAYER";
+    public final static String THIS_PASSWORD  = "edu.sdsmt.group1.THIS_PASSWORD";
     public final static String ROUNDS_MESSAGE  = "edu.sdsmt.group1.ROUNDS_MESSAGE";
     private SharedPreferences preferences;
     EditText user;
@@ -104,6 +105,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     public void onStart(View view) {
         final MonitorCloud monitor = MonitorCloud.INSTANCE;
+        monitor.logOut();
         Intent intent = new Intent(this, GameBoardActivity.class);
          //This is old stuff but we will leave it for no
 
@@ -147,6 +149,7 @@ public class WelcomeActivity extends AppCompatActivity {
             Intent intent = new Intent(this, GameBoardActivity.class);
             intent.putExtra(ROUNDS_MESSAGE, rounds.getText().toString());
             intent.putExtra(THIS_PLAYER, user.getText().toString());
+            intent.putExtra(THIS_PASSWORD, passwordBox.getText().toString());
             startActivity(intent);
         }
     }

@@ -76,10 +76,9 @@ public class MonitorCloud {
             public void onComplete(@NonNull Task task) {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-                    firebaseUser = userAuth.getCurrentUser();
                     HashMap<String, Object> result = new HashMap<>();
                     result.put("/screenName/" + USER, true);
-                    result.put("/" + firebaseUser.getUid() + "/screenName", USER);
+                    result.put("/" + firebaseUser.getUid() + "/name", USER);
                     result.put("/" + firebaseUser.getUid() + "/password", PASSWORD);
                     result.put("/" + firebaseUser.getUid() + "/email", EMAIL);
                     userRef.updateChildren(result);
@@ -111,6 +110,7 @@ public class MonitorCloud {
             public void onComplete(@NonNull Task task) {
                 if (task.isSuccessful()) {
                     firebaseUser = userAuth.getCurrentUser();
+
                     setTag();
                     Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
                     authenticated = true;
@@ -144,26 +144,25 @@ public class MonitorCloud {
 
     }
 
-    public String getUserUid() {
+    public void getUserUid() {
         //stop people from getting the Uid if not logged in
         if (firebaseUser == null)
-            return "";
+            return;
         else
-            return firebaseUser.getUid();
+            matchRef.child("testmatchUID/"+TAG+"/uid").setValue(firebaseUser.getUid());
     }
 
     public void setPlayerName() {
-        DatabaseReference myRef = userRef;
-
+        DatabaseReference myRef = userRef.child(FirebaseAuth.getInstance().getUid());
         // Read from the database
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (!(TAG.equals(""))) {
                     String UID = firebaseUser.getUid();
-                    USER = dataSnapshot.child(UID + "/screenName").getValue().toString();
+                    USER = dataSnapshot.child("/name").getValue().toString();
                     matchRef.child("testmatchUID/" + TAG + "/screenName").setValue(USER);
-                    EMAIL = dataSnapshot.child(UID + "/email").getValue().toString();
+                    EMAIL = dataSnapshot.child("/email").getValue().toString();
                     matchRef.child("testmatchUID/" + TAG + "/email").setValue(EMAIL);
                     if (wAct != null) {
                     matchRef.child("testmatchUID/" + TAG + "/email").setValue(EMAIL);}
@@ -177,6 +176,7 @@ public class MonitorCloud {
 
             @Override
             public void onCancelled(DatabaseError error) {
+                Log.d("setName", error.toString());
             }
         });
     }
@@ -197,7 +197,7 @@ public class MonitorCloud {
                 }
                 if (!(TAG.equals(""))) {
                     matchRef.child("testmatchUID/" + TAG + "/score").setValue(0);
-                    if (TAG == "player1") {
+                    if (TAG.equals("player1")) {
                         matchRef.child("testmatchUID/game/currRound").setValue(ROUNDS);
                         matchRef.child("testmatchUID/game/endGame").setValue(false);
                     }
@@ -207,6 +207,7 @@ public class MonitorCloud {
 
             @Override
             public void onCancelled(DatabaseError error) {
+                Log.d("setName", error.toString());
             }
         });
     }
@@ -236,7 +237,9 @@ public class MonitorCloud {
         });
     }
 
-
+    public void logOut(){
+        FirebaseAuth.getInstance().signOut();
+    }
 
 
 }
