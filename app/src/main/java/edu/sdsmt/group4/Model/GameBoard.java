@@ -116,7 +116,7 @@ public class GameBoard {
         bundle.putIntArray(PLAYER_SCORES, playerScores);
         bundle.putStringArray(PLAYER_NAMES, playerNames);
         bundle.putStringArray(PLAYER_EMAILS, playerEmails);
-        bundle.putInt(CURRENT_PLAYER_ID, currentPlayer.getId());
+        //bundle.putInt(CURRENT_PLAYER_ID, currentPlayer.getId());
     }
 
         public void loadInstanceState (Bundle bundle){

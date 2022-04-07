@@ -1,8 +1,10 @@
 package edu.sdsmt.group4.Control;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -32,6 +34,23 @@ public class EndGameActivity extends AppCompatActivity {
         player1.setText(intent.getStringExtra(PLAYER1_MESSAGE));
         player2.setText(intent.getStringExtra(PLAYER2_MESSAGE));
         winner.setText(intent.getStringExtra(WINNER_MESSAGE));
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        bundle.putString(PLAYER1_MESSAGE,player1.getText().toString() );
+        bundle.putString(PLAYER2_MESSAGE,player2.getText().toString());
+        bundle.putString(WINNER_MESSAGE,winner.getText().toString());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle bundle) {
+        super.onRestoreInstanceState(bundle);
+        player1.setText(bundle.getString(PLAYER1_MESSAGE));
+        player2.setText(bundle.getString(PLAYER2_MESSAGE));
+        winner.setText(bundle.getString(WINNER_MESSAGE));
     }
 
     @Override
