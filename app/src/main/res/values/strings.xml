@@ -43,7 +43,7 @@ CAPTURE OPTIONS\n\n
     <string name="return_string">PLAY AGAIN!</string>
 
     <!-- Cloud Messages -->
-    <string name="loading_fail">Failed to retrieve data from the cloud</string>
+    <string name="loading_fail">Unauthorized access! Can not play the game</string>
     <string name="emailInputHint">Email</string>
     <string name="passwordInputHint">Password</string>
     <string name="waitingForPlayersHint">Waiting for player/loading…</string>

@@ -34,7 +34,7 @@ public class EndGameActivity extends AppCompatActivity {
         player2.setText(intent.getStringExtra(PLAYER2_MESSAGE));
         winner.setText(intent.getStringExtra(WINNER_MESSAGE));
 
-        cloud.reset();
+
     }
 
 
@@ -57,12 +57,13 @@ public class EndGameActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
+        cloud.reset();
         finish();
     }
 
     public void onReturnClick(View view)
     {
-
+        cloud.reset();
         finish();
     }
 }

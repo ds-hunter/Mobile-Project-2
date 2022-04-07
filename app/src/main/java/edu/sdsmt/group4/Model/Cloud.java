@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import edu.sdsmt.group4.Control.WaitingDlg;
 import edu.sdsmt.group4.R;
 import edu.sdsmt.group4.View.GameBoardView;
 
@@ -30,7 +31,8 @@ public class Cloud {
             TextView rounds,
             Button captureOptions,
             Button capture,
-            String thisPlayer
+            String thisPlayer,
+            WaitingDlg dlg
     )
     {
         DatabaseReference matchRef = matches.child("testmatchUID");
@@ -46,6 +48,7 @@ public class Cloud {
             public void onCancelled(DatabaseError error) {
                 view.post(() -> {
                     Toast.makeText(view.getContext(), R.string.loading_fail, Toast.LENGTH_SHORT).show();
+                    dlg.unAuthorized();
                 });
             }
         });

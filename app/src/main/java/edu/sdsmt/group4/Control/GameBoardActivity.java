@@ -82,6 +82,7 @@ public class GameBoardActivity extends AppCompatActivity {
         if (view.getNumPlayers() != 2 ) {
             dlg = new WaitingDlg();
             dlg.setActivity(this);
+            dlg.setCancelable(false);
             dlg.show(getSupportFragmentManager(), "Loading");
             timer = new Timer();
             timer.schedule(new WaitForPlayerTask(), 1000, 1000);
@@ -254,7 +255,7 @@ public class GameBoardActivity extends AppCompatActivity {
                 });
 
             if(loadBool) {
-                cloud.loadFromCloud(view, player1Name, player2Name, player1Score, player2Score, rounds, captureOptions, capture, thisPlayer);
+                cloud.loadFromCloud(view, player1Name, player2Name, player1Score, player2Score, rounds, captureOptions, capture, thisPlayer, dlg);
                 // Check if board currently has 2 players to detect if a match is going and check for timeouts
                 //GRADING: TIMEOUT
                 if (view.getNumPlayers() == 2) {

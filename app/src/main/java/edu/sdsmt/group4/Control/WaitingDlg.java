@@ -22,6 +22,11 @@ public class WaitingDlg extends DialogFragment {
         activity = a;
     }
 
+    public void unAuthorized(){
+        Cloud cloud = new Cloud();
+        cloud.reset();
+        activity.finish();
+        activity.stopLoadTimer();}
     @Override
     @NonNull
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {

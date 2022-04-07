@@ -1,0 +1,29 @@
+{
+  "matches" : {
+    "testmatchUID" : {
+      "game" : {
+        "collectableAmt" : 0,
+        "collectables" : {
+          "ctest" : {
+            "relX" : 0,
+            "relY" : 0
+          }
+        },
+        "currPlayer" : 0,
+        "currRound" : "5",
+        "endGame" : false
+      }
+    }
+  },
+  "users" : {
+    "name" : "person",
+    "playerUID" : {
+      "email" : "test@gmail.com",
+      "password" : "test1234",
+      "screenName" : "Player1"
+    },
+    "screenName" : {
+      "name" : true
+    }
+  }
+}
