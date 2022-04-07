@@ -18,10 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -238,21 +235,10 @@ public class GameBoardActivity extends AppCompatActivity {
         @Override
         public void run() {
 
-                DatabaseReference matchRef = ref.child("testmatchUID").child("game").child("endGame");
-
-                // Read from the database
-                matchRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if ((boolean) dataSnapshot.getValue()) {
-                            endGame();
-                        }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
+            if (view.isForceEndGame()) {
+                endGame();
+                return;
+            }
 
             if(loadBool) {
                 cloud.loadFromCloud(view, player1Name, player2Name, player1Score, player2Score, rounds, captureOptions, capture, thisPlayer, dlg);
@@ -260,11 +246,10 @@ public class GameBoardActivity extends AppCompatActivity {
                 //GRADING: TIMEOUT
                 if (view.getNumPlayers() == 2) {
                     if (view.getPlayer1Time() > 30) {
-                        Log.d("Player Timeout", "Player 1");
                         endGame();
+                        return;
                     }
                     if (view.getPlayer2Time() > 30) {
-                        Log.d("Player Timeout", "Player 2");
                         endGame();
                     }
                 }

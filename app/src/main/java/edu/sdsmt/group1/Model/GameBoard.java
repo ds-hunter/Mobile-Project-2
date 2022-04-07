@@ -24,7 +24,6 @@ public class GameBoard {
     private final static String LOCATIONS = "GameBoard.locations";
     private final static String IDS = "GameBoard.ids";
     private int rounds;
-    private int totalRound;
     private final Context context;
     GameBoardView view;
     private float canvasWidth;
@@ -32,6 +31,7 @@ public class GameBoard {
     private float viewWidth;
     private long player1Update = System.currentTimeMillis() / 1000L;
     private long player2Update = System.currentTimeMillis() / 1000L;
+    private boolean isForceEndGame = false;
 
     public GameBoard(Context context, GameBoardView view) {
         this.context = context;
@@ -276,5 +276,13 @@ public class GameBoard {
     }
     public void clearCollectables() {
         collectables.clear();
+    }
+
+    public boolean isForceEndGame() {
+        return isForceEndGame;
+    }
+
+    public void setForceEndGame(boolean forceEndGame) {
+        isForceEndGame = forceEndGame;
     }
 }

@@ -444,7 +444,6 @@ public class GameBoardView extends View {
             }
         } else {
             if (board.getNumPlayers() == 2) {
-                Log.d("TEST", String.valueOf(board.getNumPlayers()));
                 // player 1 has left the game
                 board.setRounds(0);
             }
@@ -464,7 +463,6 @@ public class GameBoardView extends View {
             }
         } else {
             if (board.getNumPlayers() == 2) {
-                Log.d("TEST", String.valueOf(board.getNumPlayers()));
                 // player 2 has left the game
                 board.setRounds(0);
             }
@@ -502,6 +500,9 @@ public class GameBoardView extends View {
             }
         }
 
+        if (gameData.hasChild("endGame"))
+            board.setForceEndGame(Boolean.parseBoolean(Objects.requireNonNull(gameData.child("endGame").getValue()).toString()));
+
         // Update the view with all the new values from firebase
         updateGUI(player1Name,player2Name,p1Score,p2Score,rounds,captureOptions,capture,thisPlayer);
         invalidate();
@@ -534,5 +535,9 @@ public class GameBoardView extends View {
 
     public long getPlayer2Time() {
         return board.getPlayer2Time();
+    }
+
+    public boolean isForceEndGame() {
+        return board.isForceEndGame();
     }
 }
